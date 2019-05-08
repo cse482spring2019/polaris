@@ -1,24 +1,41 @@
-package service;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.concurrent.atomic.AtomicLong;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 public class Controller {
 
-    private final AtomicLong counter = new AtomicLong();
+    // won't actually need this map once we have database set up
+    private Map<Long, BusStop> database;
 
-    @RequestMapping("/greeting")
-    public Response greeting(@RequestParam(value="name", defaultValue="World") String name) {
-        return new Response(counter.incrementAndGet(),
-                            String.format("Hi, %s!", name));
+    public Controller() {
+        this.database = new HashMap<>();
     }
 
-    @RequestMapping("/foo")
-    public Response foo(@RequestParam(value="bar", defaultValue="") String bar) {
-        return new Response(counter.incrementAndGet(),
-                            String.format("foo %s baz", bar));
+    /**
+     * Returns the bus stop with the given id
+     *
+     * @param id id of the bus stop
+     * @return the bus stop with that id
+     */
+    @GetMapping("/stops/{id}")
+    public BusStop getBusStop(@PathVariable long id) {
+        return database.get(id);
+    }
+
+    @PostMapping("/stops/{id}")
+    public ResponseEntity<?> postBusStop(@RequestBody BusStop busStop) throws URISyntaxException {
+        database.put(busStop.getId(), busStop);
+
+        Resource resource = assembler
+
+        return ResponseEntity
+                .created(new URI(busStop.toString()))
+                .body(busStop);
     }
 }

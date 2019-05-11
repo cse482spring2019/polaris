@@ -6,28 +6,46 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Stop {
+
     @Id
-    private final long id;
-    private final List<Review> reviews;
+    private final int id;
+    private final String name;
+    private List<String> imageUrls;
+    private TagStore tagStore;
 
-    public Stop(long id) {
-        this.id = id;
-        this.reviews = new LinkedList<>();
+    public Stop(String name) {
+        this.id = name.hashCode();
+        this.name = name;
+        this.imageUrls = new LinkedList<>();
+        this.tagStore = new TagStore();
     }
 
-    public long getId() {
-        return id;
+    public int getId() {
+        return this.id;
     }
 
-    public List<Review> getReviews() {
-        return reviews;
+    public String getName() {
+        return name;
+    }
+
+    public void incrementTag(String tag) {
+        tagStore.incrementTag(tag);
+    }
+
+    public void decrementTag(String tag) {
+        tagStore.decrementTag(tag);
+    }
+
+    public void addImage(String imageUrl) {
+        imageUrls.add(imageUrl);
     }
 
     @Override
     public String toString() {
-        return "Stop={" +
-                    "id=" + id + "," +
-                    "reviews=" + reviews + "," +
+        return "Stop{" +
+                "name='" + name + '\'' +
+                ", images=" + imageUrls +
+                ", tags=" + tagStore +
                 "}";
     }
 }

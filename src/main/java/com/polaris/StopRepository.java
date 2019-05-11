@@ -24,7 +24,7 @@ public class StopRepository {
 
     public Stop findById(long id) {
         try {
-            final SqlParameterSource paramSource = new MapSqlParameterSource("id", id);
+            SqlParameterSource paramSource = new MapSqlParameterSource("id", id);
             return jdbcTemplate.queryForObject(SQL_FIND_BY_ID, paramSource, ROW_MAPPER);
         }
         catch (EmptyResultDataAccessException ex) {
@@ -37,14 +37,19 @@ public class StopRepository {
     }
 
     public int save(Stop stop) {
-        final SqlParameterSource paramSource = new MapSqlParameterSource()
+        /*
+        TODO: Not sure how to do this (or the rest of the queries in general)
+
+        SqlParameterSource paramSource = new MapSqlParameterSource()
                 .addValue("reviews", stop.getReviews());
+         */
+        SqlParameterSource paramSource = null;
 
         return jdbcTemplate.update(SQL_INSERT, paramSource);
     }
 
     public void deleteById(long id) {
-        final SqlParameterSource paramSource = new MapSqlParameterSource("id", id);
+        SqlParameterSource paramSource = new MapSqlParameterSource("id", id);
         jdbcTemplate.update(SQL_DELETE_BY_ID, paramSource);
     }
 }

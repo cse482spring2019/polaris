@@ -1,16 +1,23 @@
 <!DOCTYPE html>
 <html>
     <style>
-        button {
-            background-color: #74BB38;
-            border: none;
-            color: white;
-            padding: 15px 32px;
-            width: 220px;
-            margin: 3px;
-            text-align: center;
-            display: inline-block;
-        }
+.tag {
+    background-color: #74BB38;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    width: 220px;
+    margin: 3px;
+    text-align: center;
+    display: inline-block;
+}
+
+#edit, #save {
+    border: none;
+    padding: 15px 32px;
+    margin: 3px;
+    display: inline-block;
+}
 
     </style>
     <head>
@@ -24,10 +31,11 @@
             <h2>Roosevelt Way NE & NE 42nd Street</h1>
             <h3>Stop # 9610 - S bound</h3>
         </div>
-        <div class="tags"></div>
-        <div class="images">
-
+        <div class="buttons">
+            <button id="edit" type="button">Edit</button>
+            <button id="save" type="button">Save</button>
         </div>
+        <div class="images"></div>
         <div>
             <p class="greeting-id">The ID is </p>
             <p class="greeting-content">The content is </p>

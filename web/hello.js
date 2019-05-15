@@ -11,8 +11,12 @@ $(document).ready(function() {
     var c2 = new Array(c.length).fill(0);
     var editing = false;
 
-    addButtons($('.buttons'));
+    /* Puts the initial buttons on the page */
     for (var i = 0; i < n.length; i++) {
+        $('.buttons').prepend(
+            '<button type="button" id="btn-' + i + '" class="tag" disabled></button>'
+        );
+
         var btn = $('#btn-' + i);
         btn.html(format(n[i], c[i]));
         if (c[i] == 0) {
@@ -20,6 +24,7 @@ $(document).ready(function() {
         }
     }
 
+    // TODO: should actually get the data from the service
     $.ajax({
         url: "http://rest-service.guides.spring.io/greeting"
     }).then(function(data) {
@@ -27,12 +32,11 @@ $(document).ready(function() {
         $('.greeting-content').append(data.content);
     });
 
+    /* Behavior for clicking on a tag */
     $(".tag").click(function() {
         if (editing) {
-            var color = $(this).css('background-color');
-            var text  = $(this).text();
             var i     = $(this).attr('id').charAt(4);
-            if (color == 'rgb(116, 187, 56)') {
+            if ($(this).css('background-color') == 'rgb(116, 187, 56)') {
                 $(this).css('background-color', '#487623');
                 $(this).html(format(n[i], c[i] + 1));
                 c2[i] = 1;
@@ -44,18 +48,35 @@ $(document).ready(function() {
         }
     });
 
+    /* Goes into edit mode when the 'edit' button is clicked */
     $('#edit').click(function() {
-        if (!editing) {
-            $('#save').disabled = true;
-            editing = true;
+        $('#save').attr('disabled', false);
+        $('#edit').attr('disabled', true);
+        editing = true;
+
+        for (var i = 0; i < n.length; i++) {
+            var btn = $('#btn-' + i);
+            btn.attr('disabled', false);
+            if (c2[i] == 1) {
+                btn.css('background-color', '#487623');
+            }
         }
     });
 
+    /* Save by updating count and color in the tag */
     $('#save').click(function() {
-        if (editing) {
-            console.log($('.tag')[0]);
-            editing = false;
+        $('#save').attr('disabled', true);
+        $('#edit').attr('disabled', false);
+        editing = false;
+
+        for (var i = 0; i < n.length; i++) {
+            var btn = $('#btn-' + i);
+            btn.attr('disabled', true);
+            btn.html(format(n[i], c[i] + c2[i]))
+            btn.css('background-color', '#74BB38');
         }
+
+        //TODO; send the data to the service
     });
 
     /*
@@ -64,14 +85,4 @@ $(document).ready(function() {
     function format(name, count) {
         return name + ' (' + count + ')';
     }
-
-    /*
-     * Adds a button to the given container for each of the defined tags
-     */
-    function addButtons(container) {
-        for (var i = n.length - 1; i >= 0; i--) {
-            container.prepend('<button type="button" id="btn-' + i + '" class="tag"></button>');
-        }
-    }
 });
-

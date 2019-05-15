@@ -8,27 +8,49 @@ import java.util.List;
 public class Stop {
 
     @Id
-    private int id;
+    private String id;
     private String name;
     private List<String> imageUrls;
     private TagStore tagStore;
 
-    public Stop(int id) {
+    public Stop () {}
+
+    public Stop(String id) {
         this.id = id;
         this.imageUrls = new LinkedList<>();
         this.tagStore = new TagStore();
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public int getId() {
+    public String getId() {
         return this.id;
     }
 
     public String getName() {
         return name;
+    }
+
+    public String setName(String name) {
+        return this.name = name;
+    }
+
+    public List<String> getImageUrls() {
+        return this.imageUrls;
+    }
+
+    public List<String> setImageUrls(List<String> imageUrls) {
+        return this.imageUrls = imageUrls;
+    }
+
+    public TagStore getTags() {
+        return this.tagStore;
+    }
+
+    public TagStore setTagStore(TagStore tagStore) {
+        return this.tagStore = tagStore;
     }
 
     public void incrementTag(String tag) {
@@ -45,10 +67,11 @@ public class Stop {
 
     @Override
     public String toString() {
-        return "Stop{" +
-                "name='" + name + '\'' +
-                ", images=" + imageUrls +
-                ", tags=" + tagStore +
-                "}";
+        // return "Stop{" +
+        //         "name='" + name + '\'' +
+        //         ", images=" + imageUrls +
+        //         ", tags=" + tagStore +
+        //         "}";
+        return "Stop{" + id + "}";
     }
 }

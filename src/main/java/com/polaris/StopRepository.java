@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class StopRepository {
 
-    private static final String SQL_FIND_BY_ID = "SELECT * FROM STOPS WHERE ID = :id";
+    private static final String SQL_FIND_BY_ID = "SELECT * FROM STOPS WHERE BusStopId = :id";
     private static final String SQL_FIND_ALL = "SELECT * FROM STOPS";
     private static final String SQL_INSERT = "INSERT INTO STOPS (REVIEWS) values(:reviews)";
     private static final String SQL_DELETE_BY_ID = "DELETE FROM STOPS WHERE ID = :id";
@@ -39,6 +39,9 @@ public class StopRepository {
     public int save(Stop stop) {
         /*
         TODO: Not sure how to do this (or the rest of the queries in general)
+
+        It looks like whatever information is passed to the Post in StopController can
+        be accessed and set as a field here
 
         SqlParameterSource paramSource = new MapSqlParameterSource()
                 .addValue("reviews", stop.getReviews());

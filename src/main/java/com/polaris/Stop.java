@@ -8,16 +8,19 @@ import java.util.List;
 public class Stop {
 
     @Id
-    private final int id;
-    private final String name;
+    private int id;
+    private String name;
     private List<String> imageUrls;
     private TagStore tagStore;
 
-    public Stop(String name) {
-        this.id = name.hashCode();
-        this.name = name;
+    public Stop(int id) {
+        this.id = id;
         this.imageUrls = new LinkedList<>();
         this.tagStore = new TagStore();
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getId() {

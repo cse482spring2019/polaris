@@ -10,11 +10,12 @@ button:enabled {
     background-color: #74BB38;
     border: none;
     color: white;
-    padding: 15px 32px;
+    padding: 15px 15px;
     width: 220px;
     margin: 3px;
     text-align: center;
     display: inline-block;
+    font-weight: bold;
 }
 
 #edit, #save {
@@ -22,6 +23,11 @@ button:enabled {
     padding: 15px 32px;
     margin: 3px;
     display: inline-block;
+}
+
+img {
+    height: 300px;
+    margin: 3px;
 }
 
     </style>
@@ -41,6 +47,11 @@ button:enabled {
             <button id="save" type="button" disabled>Save</button>
         </div>
         <div class="images"></div>
+        <div class="image-buttons">
+            <button id="submit" type="button">Upload</button>
+            <input type="file" id="files" multiple/>
+            <output id="list"></output>
+        </div>
         <div>
             <p class="greeting-id">The ID is </p>
             <p class="greeting-content">The content is </p>

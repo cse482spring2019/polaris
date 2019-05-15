@@ -9,6 +9,7 @@ $(document).ready(function() {
         "Insufficient Light"];
     var c = [11, 42, 91, 1, 0, 77, 14, 0];
     var c2 = new Array(c.length).fill(0);
+    var images = ['a.jpg', 'b.jpg', 'c.jpg', 'd.jpg']
     var editing = false;
 
     /* Puts the initial buttons on the page */
@@ -22,6 +23,12 @@ $(document).ready(function() {
         if (c[i] == 0) {
             btn.hide();
         }
+    }
+
+    for (var i = 0; i < images.length; i++) {
+        $('.images').append(
+            '<img src="' + images[i] + '" alt="bus stop">'
+        );
     }
 
     // TODO: should actually get the data from the service
@@ -81,6 +88,17 @@ $(document).ready(function() {
         }
 
         //TODO; send the data to the service
+    });
+
+    var files;
+
+    $('input[type="file"]').change(function(e) {
+        files = e.target.files;
+    });
+
+    $('#submit').bind('click', function() {
+        console.log(files);
+        $('input[type="file"]').val('');
     });
 
     /*

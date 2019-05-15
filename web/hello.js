@@ -57,6 +57,7 @@ $(document).ready(function() {
         for (var i = 0; i < n.length; i++) {
             var btn = $('#btn-' + i);
             btn.attr('disabled', false);
+            btn.show();
             if (c2[i] == 1) {
                 btn.css('background-color', '#487623');
             }
@@ -72,6 +73,9 @@ $(document).ready(function() {
         for (var i = 0; i < n.length; i++) {
             var btn = $('#btn-' + i);
             btn.attr('disabled', true);
+            if (c[i] + c2[i] == 0) {
+                btn.hide();
+            }
             btn.html(format(n[i], c[i] + c2[i]))
             btn.css('background-color', '#74BB38');
         }

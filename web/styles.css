@@ -38,11 +38,27 @@ label {
 }
 
 .tag {
-	background-color: #74BB38;
-	color: white;
+    border: 1px solid #548929;
+    border-radius: 5px;
 	width: 220px;
 	text-align: center;
 	font-weight: bold;
+}
+
+.tag-default {
+	background-color: #f2f9eb;
+    color: #548929;
+}
+
+.tag-selected {
+	background-color: #548929;
+    color: #f2f9eb;
+}
+
+.tag-zero {
+    background-color: #f2f2f2;
+    border-color: #808080;
+    color: #808080;
 }
 
 img {

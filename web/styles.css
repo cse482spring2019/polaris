@@ -24,25 +24,30 @@ button:enabled, label {
 }
 
 button, label {
-	border: none;
 	padding: 15px 15px;
 	margin: 3px;
 	display: inline-block;
 	min-width: 100px;
+   
+    border: 1px solid;
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    border-color: #808080;
+    color: #808080;
+	font-weight: bold;
 }
 
 label {
-	background-color: rgb(221, 221, 221);
 	font-family: Arial;
 	font-size: 13.3333px;
 }
 
+.save {
+    display: inline-block;
+}
+
 .tag {
-    border: 1px solid #548929;
-    border-radius: 5px;
 	width: 220px;
-	text-align: center;
-	font-weight: bold;
 }
 
 .tag-default {
@@ -53,12 +58,6 @@ label {
 .tag-selected {
 	background-color: #548929;
     color: #f2f9eb;
-}
-
-.tag-zero {
-    background-color: #f2f2f2;
-    border-color: #808080;
-    color: #808080;
 }
 
 img {

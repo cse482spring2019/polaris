@@ -1,0 +1,60 @@
+.title {
+	text-align: center;
+}
+
+.tag-container {
+	width: 50%;
+	margin: 0 auto;
+	margin-top: 5%;
+	margin-bottom: 3%;
+}
+
+.image-container {
+	width: 80%;
+	margin: 0 auto;
+}
+
+.tag-container h3,
+.image-container h3 {
+	text-align: center;
+}
+
+button:enabled, label {
+	cursor: pointer;
+}
+
+button, label {
+	border: none;
+	padding: 15px 15px;
+	margin: 3px;
+	display: inline-block;
+	min-width: 100px;
+}
+
+label {
+	background-color: rgb(221, 221, 221);
+	font-family: Arial;
+	font-size: 13.3333px;
+}
+
+.tag {
+	background-color: #74BB38;
+	color: white;
+	width: 220px;
+	text-align: center;
+	font-weight: bold;
+}
+
+img {
+	height: 300px;
+	margin: 3px;
+}
+
+input[type=file] {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}

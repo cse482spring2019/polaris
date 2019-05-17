@@ -1,3 +1,16 @@
+body {
+    font-family: Arial;
+}
+
+p {
+    display: none;
+    font-size: 13.3333px;
+}
+
+output {
+    font-size: 13.3333px;
+}
+
 .title {
 	text-align: center;
 }
@@ -38,7 +51,6 @@ button, label {
 }
 
 label {
-	font-family: Arial;
 	font-size: 13.3333px;
 }
 
@@ -52,12 +64,14 @@ label {
 
 .tag-default {
 	background-color: #f2f9eb;
-    color: #548929;
+    color: #319449;
+    border-color: #319449;
 }
 
 .tag-selected {
-	background-color: #548929;
+	background-color: #319449;
     color: #f2f9eb;
+    border-color: #319449;
 }
 
 img {
@@ -72,4 +86,8 @@ input[type=file] {
 	overflow: hidden;
 	position: absolute;
 	z-index: -1;
+}
+
+input[type=file]:focus + label {
+    outline: 5px auto -webkit-focus-ring-color;
 }

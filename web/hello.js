@@ -51,7 +51,8 @@ $(document).ready(function() {
 
     /* Save by updating count and color in the tag */
     $('button.save').click(function() {
-        $('p.save').text('changes saved');
+        $('p.save').text('saving...');
+
         for (var i = 0; i < data.length; i++) {
             //TODO; send the data to the service
         }
@@ -81,7 +82,20 @@ $(document).ready(function() {
         return name + ' (' + count + ')';
     }
 
+    /*
+     * Returns the class of the tag with the given index based on counts
+     */
     function getClass(i) {
         return (data[i].count + added[i]) == 0 ? 'tag' : 'tag tag-default';
+    }
+
+    /*
+     * Returns the query parameter with the given name or false if there
+     * is no such query parameter included
+     */
+    function getQueryParam(name) {
+        var results = new RegExp('[\?&]' + name + '=([^&#]*)')
+            .exec(window.location.search);
+        return (results !== null) ? results[1] || 0 : false;
     }
 });

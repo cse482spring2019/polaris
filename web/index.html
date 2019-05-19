@@ -3,7 +3,7 @@
     <head>
         <title>Roosevelt Way NE & NE 42nd Street - S bound - Stop # 9610</title>
         <script type="text/javascript" src="jquery-3.4.1.min.js"></script>
-        <script type="text/javascript" src="hello.js"></script>
+        <script type="text/javascript" src="scripts.js"></script>
         <link rel="stylesheet" href="styles.css">
     </head>
 
@@ -12,24 +12,44 @@
             <h2>Roosevelt Way NE & NE 42nd Street</h1>
             <h3>Stop # 9610 - S bound</h3>
         </div>
-        <h3>What have users said about this stop?</h3>
+        <h3 id="tag-header" class="center">What have users said about this stop?</h3>
+        <p id="tag-helptext" class="center">
+            <i>select and save the tags below to share your thoughts</i>
+        </p>
         <div class="tag-container"></div>
         <div class="save">
-            <button type="button" class="save">Save</button>
-            <p class="save"></p>
+            <button id="save-button" type="button">Save</button>
         </div>
 
-        <h3>What does the stop look like?</h3>
+        <h3 id="image-header" class="center">What does the stop look like?</h3>
         <div class="image-container">
-            <div id="stopModal" class="modal">
-                <span id="close">&times</span>
-                <img id="modalImage">
+            <div id="stop-modal" class="modal">
+                <span class="close">&times</span>
+                <img id="modal-image">
             </div>
         </div>
         <div class="upload">
-            <input id="images" style="width: 0.1px" type="file" multiple>
-            <label for="images" class="btn">Select Image(s) to Upload</label>
-            <output for="images"></output>
+            <div id="upload-modal" class="modal">
+                <span class="close">&times</span>
+                <div id="image-form">
+                    <div class="form-section">
+                        <p>Please select an image</p>
+                        <div class="input-wrapper">
+                            <input id="images" type="file" accept=".jpg, .jpeg, .png, .bmp">
+                        </div>
+                    </div>
+                    <div class="form-section">
+                        <p>Please provide a one sentence description</p>
+                        <textarea></textarea>
+                    </div>
+                    <div class="modal-buttons">
+                        <button type="button" id="cancel">Cancel</button>
+                        <button type="button" id="ok" disabled 
+                            title='please select an image before uploading'>Upload</button>
+                    </div>
+                </div>
+            </div>
+            <button id="upload-button" type="button">Select Image to Upload</label>
         </div>
     </body>
 </html>

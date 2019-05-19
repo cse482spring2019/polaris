@@ -3,17 +3,25 @@ body {
 }
 
 p {
-    display: none;
     font-size: 13.3333px;
 }
 
-output {
-    font-size: 13.3333px;
+.save p {
+    display: none;
 }
 
 .title {
-	text-align: center;
+    text-align: center;
     margin-bottom: 5%;
+}
+
+#tag-header {
+    margin-bottom: 0;
+}
+
+#tag-helptext {
+    margin-top: 5px;
+    margin-bottom: 25px;
 }
 
 .tag-container {
@@ -30,8 +38,8 @@ output {
     justify-content: center;
 }
 
-h3 {
-	text-align: center;
+.center {
+    text-align: center;
 }
 
 .card {
@@ -60,7 +68,7 @@ h3 {
 .save {
     display: flex;
     justify-content: center;
-	margin-bottom: 2%;
+    margin-bottom: 3%;
 }
 
 .upload {
@@ -68,59 +76,90 @@ h3 {
     justify-content: center;
 }
 
+.empty {
+    margin-bottom: 20px;
+    font-style: italic;
+}
+
 button:enabled, label {
-	cursor: pointer;
+    cursor: pointer;
 }
 
 button:hover, label:hover {
     opacity: 0.8;
 }
 
-button, label {
-	padding: 15px 15px;
-	margin: 3px;
-	display: inline-block;
-	min-width: 100px;
-   
+button {
+    padding: 15px 15px;
+    margin: 3px;
+    display: inline-block;
+    min-width: 100px;
+
     border: 1px solid;
     border-radius: 5px;
     background-color: #f2f2f2;
     border-color: #808080;
     color: #808080;
-	font-weight: bold;
-}
-
-label {
-	font-size: 13.3333px;
+    font-weight: bold;
 }
 
 .tag {
-	width: 220px;
+    width: 220px;
 }
 
 .tag-default {
-	background-color: #f2f9eb;
+    background-color: #f2f9eb;
     color: #319449;
     border-color: #319449;
 }
 
 .tag-selected {
-	background-color: #319449;
+    background-color: #319449;
     color: #f2f9eb;
     border-color: #319449;
 }
 
 input[type=file] {
-	width: 0.1px;
-	height: 0.1px;
-	opacity: 0;
-	overflow: hidden;
-	position: absolute;
-	z-index: -1;
+    margin: 20px auto;
 }
 
-input[type=file]:focus + label {
-    outline: 5px auto -webkit-focus-ring-color;
+.input-wrapper {
+    text-align: center;
+}
+
+textarea {
+    font-family: Arial;
+    border: 1px solid grey;
+    border-radius: 5px;
+    padding: 5px;
+
+    height: 140px;
+    width: 100%;
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;         /* Opera/IE 8+ */
+}
+
+.modal-buttons {
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+}
+
+#cancel {
+    background-color: mistyrose;
+    border-color: indianred;
+    color: indianred;
+}
+
+#ok {
+    background-color: honeydew;
+    border-color: forestgreen;
+    color: forestgreen;
+}
+
+#ok:disabled {
+    opacity: 0.7;
 }
 
 /* The Modal (background) */
@@ -139,14 +178,26 @@ input[type=file]:focus + label {
 }
 
 /* Modal Content (Image) */
-#modalImage {
+#modal-image { 
     margin: auto;
     display: block;
     height: 80%;
+
+    -webkit-animation-name: zoom;
+    -webkit-animation-duration: 0.6s;
+    animation-name: zoom;
+    animation-duration: 0.6s;
 }
 
-/* Add Animation - Zoom in the Modal */
-#modalImage { 
+#image-form {
+    padding: 20px;
+    width: 40%;
+    height: 370px;
+    background-color: whitesmoke;
+    margin: auto;
+    border-radius: 5px;
+    overflow: auto;
+
     -webkit-animation-name: zoom;
     -webkit-animation-duration: 0.6s;
     animation-name: zoom;
@@ -164,7 +215,7 @@ input[type=file]:focus + label {
 }
 
 /* The Close Button */
-#close {
+.close {
     position: absolute;
     top: 15px;
     right: 35px;
@@ -174,17 +225,27 @@ input[type=file]:focus + label {
     transition: 0.3s;
 }
 
-#close:hover,
-#close:focus {
+.close:hover,
+.close:focus {
     color: #bbb;
     text-decoration: none;
     cursor: pointer;
 }
 
+@media only screen and (max-width: 1400px) {
+    #image-form {
+        width: 75%;
+    }
+}
+
 /* 100% Image Width on Smaller Screens */
-@media only screen and (max-width: 700px){
-    #modalImage {
+@media only screen and (max-width: 700px) {
+    #modal-image {
         width: 100%;
         height: auto;
+    }
+
+    #image-form {
+        width: 90%;
     }
 }

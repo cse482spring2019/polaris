@@ -17,7 +17,7 @@ public class Stop {
 
     public Stop(String id) {
         this.id = id;
-        this.imageUrls = new LinkedList<>();
+        this.images = new LinkedList<>();
         this.tagStore = new TagStore();
     }
 

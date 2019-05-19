@@ -70,7 +70,7 @@ public class StopController {
                                  .body(String.format("Stop with id %s not found", id));
         }
 
-        stop.addImage(imageUrl);
+        //stop.addImage(imageUrl);
         repo.save(stop);
         return ResponseEntity.status(HttpStatus.OK)
                              .body(stop);

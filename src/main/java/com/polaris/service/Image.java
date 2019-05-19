@@ -17,8 +17,8 @@ public class Image {
      * Initializes a image with no information
      */
     public Image() {
-        imageUrl, altText, dateUploaded = "";
-        score, outdated = 0;
+        imageUrl = altText = dateUploaded = "";
+        score = outdatedScore = 0;
     }
 
     public void setImageUrl(String imageUrl) {

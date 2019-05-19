@@ -10,7 +10,7 @@ public class Stop {
     @Id
     private String id;
     private String name;
-    private List<String> imageUrls;
+    private List<Image> images;
     private TagStore tagStore;
 
     public Stop () {}
@@ -37,12 +37,12 @@ public class Stop {
         return this.name = name;
     }
 
-    public List<String> getImageUrls() {
-        return this.imageUrls;
+    public List<Image> getImages() {
+        return this.images;
     }
 
-    public List<String> setImageUrls(List<String> imageUrls) {
-        return this.imageUrls = imageUrls;
+    public List<Image> setImages(List<Image> images) {
+        return this.images = images;
     }
 
     public TagStore getTags() {
@@ -61,8 +61,8 @@ public class Stop {
         tagStore.decrementTag(tag);
     }
 
-    public void addImage(String imageUrl) {
-        imageUrls.add(imageUrl);
+    public void addImage(Image image) {
+        images.add(image);
     }
 
     @Override

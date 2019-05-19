@@ -1,4 +1,4 @@
-package polaris.polarisdatabase;
+package com.polaris.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -57,7 +57,7 @@ public class StopController {
     }
 
     @GetMapping("/{id}")
-    public @ResponseBody Optional<Stop> getStop(@PathVariable int id) {
+    public @ResponseBody Optional<Stop> getStop(@PathVariable String id) {
         return Optional.ofNullable(verifyStop(repo.findById("" + id)));
     }
 

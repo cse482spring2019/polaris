@@ -1,4 +1,4 @@
-package polaris.polarisdatabase;
+package com.polaris.service;
 
 import org.springframework.data.annotation.Id;
 
@@ -67,11 +67,6 @@ public class Stop {
 
     @Override
     public String toString() {
-        // return "Stop{" +
-        //         "name='" + name + '\'' +
-        //         ", images=" + imageUrls +
-        //         ", tags=" + tagStore +
-        //         "}";
         return "Stop{" + id + "}";
     }
 }

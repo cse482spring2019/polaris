@@ -8,7 +8,7 @@ import java.util.Map;
  */
 public class TagStore {
 
-    private final Map<String, Integer> tagStore;
+    private Map<String, Integer> tagStore;
 
     public static final String SPACE =        "Tight Spaces";
     public static final String INCLINE =      "Sharp Inclines";
@@ -28,6 +28,14 @@ public class TagStore {
                                         SHRUBS, ELEVATOR, BENCHES, DARKNESS}) {
             tagStore.put(tag, 0);
         }
+    }
+
+    public void setTagStore(Map<String, Integer> tagStore) {
+        this.tagStore = tagStore;
+    }
+
+    public Map<String, Integer> getTagStore() {
+        return this.tagStore;
     }
 
     /**

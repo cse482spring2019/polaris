@@ -2,10 +2,13 @@ package polaris.polarisdatabase;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-// These imports are required for the application.
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
+
 import org.springframework.util.Assert;
 
 @SpringBootApplication
@@ -19,7 +22,15 @@ public class PolarisDatabaseApplication implements CommandLineRunner {
     }
 
     public void run(String... var1) throws Exception {
-        final Stop testStop = new Stop("" + 143);
+        final Stop testStop = new Stop("Tyler");
+        testStop.setName("Best Roomate ever");
+        List<String> urls = new LinkedList<>();
+        urls.add("www.testing1");
+        urls.add("wwww.testing2");
+        testStop.setImageUrls(urls);
+
+        TagStore tg = new TagStore();
+        tg.incrementTag(TagStore.BENCHES);
 
         repository.deleteAll();
         repository.save(testStop);

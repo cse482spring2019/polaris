@@ -25,36 +25,48 @@ public class StopController {
         Stop stop = verifyStop(repo.findById(id), id);
         if (stop == null) {
             // TODO should also return appropriate error code (404?)
-            return String.format("Stop with id %d not found", id);
+            return String.format("Stop with id %s not found", id);
         }
 
-        stop.incrementTag(tag);
+        try {
+            stop.incrementTag(tag);
+        } catch (IllegalArgumentException e) {
+            // TODO should also return appropriate error code (400 bad request?)
+            return String.format("Tag %s not found", tag);
+        }
+
         repo.save(stop);
-        return String.format("Updated stop %d successfully", id);
+        return String.format("Updated stop %s successfully", id);
     }
 
     @PutMapping("/{id}/decrease/{tag}")
     public @ResponseBody String decrementTag(@PathVariable String id, @PathVariable String tag) {
         Stop stop = verifyStop(repo.findById(id), id);
         if (stop == null) {
-            return String.format("Stop with id %d not found", id);
+            return String.format("Stop with id %s not found", id);
         }
 
-        stop.decrementTag(tag);
+        try {
+            stop.decrementTag(tag);
+        } catch (IllegalArgumentException e) {
+            // TODO should also return appropriate error code (400 bad request?)
+            return String.format("Tag %s not found", tag);
+        }
+
         repo.save(stop);
-        return String.format("Updated stop %d successfully", id);
+        return String.format("Updated stop %s successfully", id);
     }
 
     @PutMapping("/{id}/add/{imagUrl}")
     public @ResponseBody String addImage(@PathVariable String id, @PathVariable String imageUrl) {
         Stop stop = verifyStop(repo.findById(id), id);
         if (stop == null) {
-            return String.format("Stop with id %d not found", id);
+            return String.format("Stop with id %s not found", id);
         }
 
         stop.addImage(imageUrl);
         repo.save(stop);
-        return String.format("Updated stop %d successfully", id);
+        return String.format("Updated stop %s successfully", id);
     }
 
     @GetMapping("/{id}")

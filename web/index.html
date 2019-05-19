@@ -1,32 +1,35 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>Roosevelt Way NE & NE 42nd Street - S bound - Stop # 9610</title>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-		<script src="hello.js"></script>
-		<link rel="stylesheet" href="styles.css">
-	</head>
+    <head>
+        <title>Roosevelt Way NE & NE 42nd Street - S bound - Stop # 9610</title>
+        <script type="text/javascript" src="jquery-3.4.1.min.js"></script>
+        <script type="text/javascript" src="hello.js"></script>
+        <link rel="stylesheet" href="styles.css">
+    </head>
 
-	<body>
-		<div class="title">
-			<h2>Roosevelt Way NE & NE 42nd Street</h1>
-			<h3>Stop # 9610 - S bound</h3>
-		</div>
-		<div class="tag-container">
-			<h3>What have users said about this stop?</h3>
-			<div class="tags"></div>
+    <body>
+        <div class="title">
+            <h2>Roosevelt Way NE & NE 42nd Street</h1>
+            <h3>Stop # 9610 - S bound</h3>
+        </div>
+        <h3>What have users said about this stop?</h3>
+        <div class="tag-container"></div>
+        <div class="save">
             <button type="button" class="save">Save</button>
             <p class="save"></p>
-		</div>
+        </div>
 
-		<div class="image-container">
-			<h3>What does the stop look like?</h3>
-			<div class="images"></div>
-			<div class="image-buttons">
-				<input id="images" style="width: 0.1px" type="file" multiple>
-				<label for="images" class="btn">Select Image(s) to Upload</label>
-				<output for="images"></output>
-			</div>
-		</div>
-	</body>
+        <h3>What does the stop look like?</h3>
+        <div class="image-container">
+            <div id="stopModal" class="modal">
+                <span id="close">&times</span>
+                <img id="modalImage">
+            </div>
+        </div>
+        <div class="upload">
+            <input id="images" style="width: 0.1px" type="file" multiple>
+            <label for="images" class="btn">Select Image(s) to Upload</label>
+            <output for="images"></output>
+        </div>
+    </body>
 </html>

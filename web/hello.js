@@ -15,16 +15,11 @@ $(document).ready(function() {
 
     /* Puts the initial buttons on the page */
     for (var i = 0; i < data.length; i++) {
-        $('.tags').append(
-            '<button type="button" id="btn-' + i + '" class="' + getClass(i) + '"></button>'
-        );
-        $('#btn-' + i).html(format(data[i].name, data[i].count));
+        $('.tag-container').append(getTag(i));
     }
 
     for (var i = 0; i < images.length; i++) {
-        $('.images').append(
-            '<img src="' + images[i] + '" alt="bus stop">'
-        );
+        $('.image-container').append(getCard(images[i]));
     }
 
     // TODO: should actually get the data from the service
@@ -58,21 +53,39 @@ $(document).ready(function() {
         }
     });
 
-    var files;
+    $('.card').click(function() {
+        $('#stopModal').show();
+        $('#modalImage').attr('src', $(this).find('img').attr('src'));
+    });
+
+    $('#close').click(function() {
+        $('#stopModal').hide();
+    });
+
+    $(document).keyup(function(e) {
+        if (e.keyCode == 27) {
+            $('#stopModal').hide();
+        }
+    });
+
     $('input[type="file"]').change(function(e) {
-        files = e.target.files;
+        var files = e.target.files;
+        var oldSize = images.length;
 
         for (var i = 0; i < files.length; i++) {
             images.push(files[i].name);
         }
         $('output').text('images uploaded!');
 
-        $('.images').empty();
-        for (var i = 0; i < images.length; i++) {
-            $('.images').append(
-                '<img src="' + images[i] + '" alt="bus stop">'
-            );
+        for (var i = oldSize; i < images.length; i++) {
+            $('.image-container').append(getCard(images[i]));
         }
+
+        // do it again since we added some cards
+        $('.card').click(function() {
+            $('#stopModal').show();
+            $('#modalImage').attr('src', $(this).find('img').attr('src'));
+        });
     });
 
     /*
@@ -97,5 +110,22 @@ $(document).ready(function() {
         var results = new RegExp('[\?&]' + name + '=([^&#]*)')
             .exec(window.location.search);
         return (results !== null) ? results[1] || 0 : false;
+    }
+
+    function getTag(i) {
+        return (
+            '<button type="button" id="btn-' + i + '" class="' + getClass(i) + '">' +
+                format(data[i].name, data[i].count) +
+            '</button>'
+        );
+    }
+
+    function getCard(image) {
+        return (
+            '<div class="card">' +
+                '<img src="' + image + '" alt="bus stop">' +
+                '<div>date uploaded: 5/18/2019</div>' +
+            '</div>'
+        );
     }
 });

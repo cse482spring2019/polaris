@@ -13,27 +13,67 @@ output {
 
 .title {
 	text-align: center;
+    margin-bottom: 5%;
 }
 
 .tag-container {
-	width: 50%;
-	margin: 0 auto;
-	margin-top: 5%;
-	margin-bottom: 3%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 50%;
+    margin: 0 auto;
 }
 
 .image-container {
-	width: 80%;
-	margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
-.tag-container h3,
-.image-container h3 {
+h3 {
 	text-align: center;
+}
+
+.card {
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+    margin: 5px;
+    transition: all 0.3s;
+}
+
+.card:hover {
+    transform: scale(1.02);
+}
+
+.card div {
+    font-size: 13.3333px;
+    text-align: right;
+    padding: 5px;
+}
+
+.card img {
+    border-radius: 5px;
+    height: 300px;
+}
+
+.save {
+    display: flex;
+    justify-content: center;
+	margin-bottom: 2%;
+}
+
+.upload {
+    display: flex;
+    justify-content: center;
 }
 
 button:enabled, label {
 	cursor: pointer;
+}
+
+button:hover, label:hover {
+    opacity: 0.8;
 }
 
 button, label {
@@ -54,10 +94,6 @@ label {
 	font-size: 13.3333px;
 }
 
-.save {
-    display: inline-block;
-}
-
 .tag {
 	width: 220px;
 }
@@ -74,11 +110,6 @@ label {
     border-color: #319449;
 }
 
-img {
-	height: 300px;
-	margin: 3px;
-}
-
 input[type=file] {
 	width: 0.1px;
 	height: 0.1px;
@@ -90,4 +121,70 @@ input[type=file] {
 
 input[type=file]:focus + label {
     outline: 5px auto -webkit-focus-ring-color;
+}
+
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.7); /* Black w/ opacity */
+}
+
+/* Modal Content (Image) */
+#modalImage {
+    margin: auto;
+    display: block;
+    height: 80%;
+}
+
+/* Add Animation - Zoom in the Modal */
+#modalImage { 
+    -webkit-animation-name: zoom;
+    -webkit-animation-duration: 0.6s;
+    animation-name: zoom;
+    animation-duration: 0.6s;
+}
+
+@-webkit-keyframes zoom {
+    from {-webkit-transform:scale(0)} 
+    to {-webkit-transform:scale(1)}
+}
+
+@keyframes zoom {
+    from {transform:scale(0)} 
+    to {transform:scale(1)}
+}
+
+/* The Close Button */
+#close {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    color: #f1f1f1;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+#close:hover,
+#close:focus {
+    color: #bbb;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* 100% Image Width on Smaller Screens */
+@media only screen and (max-width: 700px){
+    #modalImage {
+        width: 100%;
+        height: auto;
+    }
 }

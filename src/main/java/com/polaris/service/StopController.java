@@ -23,7 +23,7 @@ public class StopController {
     }
 
     @PutMapping("/{id}/increase/{tag}")
-    public ResponseEntity<String> incrementTag(@PathVariable String id, @PathVariable String tag) {
+    public ResponseEntity<?> incrementTag(@PathVariable String id, @PathVariable String tag) {
         Stop stop = verifyStop(repo.findById(id), id);
         if (stop == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -39,11 +39,11 @@ public class StopController {
 
         repo.save(stop);
         return ResponseEntity.status(HttpStatus.OK)
-                             .body(String.format("Updated stop %s successfully", id));
+                             .body(stop);
     }
 
     @PutMapping("/{id}/decrease/{tag}")
-    public ResponseEntity<String> decrementTag(@PathVariable String id, @PathVariable String tag) {
+    public ResponseEntity<?> decrementTag(@PathVariable String id, @PathVariable String tag) {
         Stop stop = verifyStop(repo.findById(id), id);
         if (stop == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -59,11 +59,11 @@ public class StopController {
 
         repo.save(stop);
         return ResponseEntity.status(HttpStatus.OK)
-                             .body(String.format("Updated stop %s successfully", id));
+                             .body(stop);
     }
 
     @PutMapping("/{id}/add/{imagUrl}")
-    public ResponseEntity<String> addImage(@PathVariable String id, @PathVariable String imageUrl) {
+    public ResponseEntity<?> addImage(@PathVariable String id, @PathVariable String imageUrl) {
         Stop stop = verifyStop(repo.findById(id), id);
         if (stop == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -73,21 +73,18 @@ public class StopController {
         stop.addImage(imageUrl);
         repo.save(stop);
         return ResponseEntity.status(HttpStatus.OK)
-                             .body(String.format("Updated stop %s successfully", id));
+                             .body(stop);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Stop>> getStop(@PathVariable String id) {
-        // return Optional.ofNullable(verifyStop(repo.findById("" + id), id));
+    public ResponseEntity<?> getStop(@PathVariable String id) {
         Stop stop = verifyStop(repo.findById(id), id);
-        Optional<Stop> result = Optional.ofNullable(stop);
         if (stop == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                                 .body(result);  // TODO
-                                 //.body(String.format("Stop with id %s not found", id));
+                                 .body(String.format("Stop with id %s not found", id));
         }
         return ResponseEntity.status(HttpStatus.OK)
-                             .body(result);
+                             .body(stop);
     }
 
     // TODO should probably remove this functionality

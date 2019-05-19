@@ -4,14 +4,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Optional;
 
 @Controller
 @RequestMapping(path="/stops")
 public class StopController {
+
+    public static final String ONE_BUS_AWAY_STOP_API_URL = "http://api.pugetsound.onebusaway.org/api/where/stop/";
+
     @Autowired
     private StopRepository repo;
 
@@ -29,7 +32,7 @@ public class StopController {
                 stop.updateTagCount(tag, count);
             } catch (IllegalArgumentException e) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                        .body(String.format("Tag %s not found", tag));
+                                     .body(String.format("Tag %s not found", tag));
             }
         }
 
@@ -67,22 +70,18 @@ public class StopController {
     private Stop verifyStop(Optional<Stop> stopResult, String id) {
         if (stopResult.isPresent()) {
             return stopResult.get();
-        } else {
-            Stop stop = new Stop(id);
-            /**
-             * TODO
-             * - should probably also set the stop name when creating the new stop
-             * - should do some sort of verification before just creating this stop
-                 and adding to the database -- it will likely be fine if this gets
-                 called fom within OneBusAway, but since our API is public, someone
-                 could try to GET a stop with a typo in the id and accidentally make
-                 a new stop with a nonexistent id
-                 - return null in this case
-               - we can probably use OneBusAway's API for both of these:
-                    http://developer.onebusaway.org/modules/onebusaway-application-modules/current/api/where/methods/stop.html
-             */
-            repo.save(stop);
-            return stop;
         }
+
+        RestTemplate rest = new RestTemplate();
+        // String obaUrl = ONE_BUS_AWAY_STOP_API_URL + id + ".json"?key=TODO;
+        String obaUrl = ONE_BUS_AWAY_STOP_API_URL + id + ".json?key=TEST";
+        ResponseEntity<String> response = rest.getForEntity(obaUrl, String.class);
+        if (!response.hasBody()) {
+            return null;
+        }
+
+        Stop stop = new Stop(id);
+        repo.save(stop);
+        return stop;
     }
 }

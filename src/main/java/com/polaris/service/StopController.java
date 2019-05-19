@@ -1,6 +1,8 @@
 package com.polaris.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
@@ -21,57 +23,71 @@ public class StopController {
     }
 
     @PutMapping("/{id}/increase/{tag}")
-    public @ResponseBody String incrementTag(@PathVariable String id, @PathVariable String tag) {
+    public ResponseEntity<String> incrementTag(@PathVariable String id, @PathVariable String tag) {
         Stop stop = verifyStop(repo.findById(id), id);
         if (stop == null) {
-            // TODO should also return appropriate error code (404?)
-            return String.format("Stop with id %s not found", id);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                                 .body(String.format("Stop with id %s not found", id));
         }
 
         try {
             stop.incrementTag(tag);
         } catch (IllegalArgumentException e) {
-            // TODO should also return appropriate error code (400 bad request?)
-            return String.format("Tag %s not found", tag);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                                 .body(String.format("Tag %s not found", tag));
         }
 
         repo.save(stop);
-        return String.format("Updated stop %s successfully", id);
+        return ResponseEntity.status(HttpStatus.OK)
+                             .body(String.format("Updated stop %s successfully", id));
     }
 
     @PutMapping("/{id}/decrease/{tag}")
-    public @ResponseBody String decrementTag(@PathVariable String id, @PathVariable String tag) {
+    public ResponseEntity<String> decrementTag(@PathVariable String id, @PathVariable String tag) {
         Stop stop = verifyStop(repo.findById(id), id);
         if (stop == null) {
-            return String.format("Stop with id %s not found", id);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                                 .body(String.format("Stop with id %s not found", id));
         }
 
         try {
             stop.decrementTag(tag);
         } catch (IllegalArgumentException e) {
-            // TODO should also return appropriate error code (400 bad request?)
-            return String.format("Tag %s not found", tag);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                                 .body(String.format("Tag %s not found", tag));
         }
 
         repo.save(stop);
-        return String.format("Updated stop %s successfully", id);
+        return ResponseEntity.status(HttpStatus.OK)
+                             .body(String.format("Updated stop %s successfully", id));
     }
 
     @PutMapping("/{id}/add/{imagUrl}")
-    public @ResponseBody String addImage(@PathVariable String id, @PathVariable String imageUrl) {
+    public ResponseEntity<String> addImage(@PathVariable String id, @PathVariable String imageUrl) {
         Stop stop = verifyStop(repo.findById(id), id);
         if (stop == null) {
-            return String.format("Stop with id %s not found", id);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                                 .body(String.format("Stop with id %s not found", id));
         }
 
         stop.addImage(imageUrl);
         repo.save(stop);
-        return String.format("Updated stop %s successfully", id);
+        return ResponseEntity.status(HttpStatus.OK)
+                             .body(String.format("Updated stop %s successfully", id));
     }
 
     @GetMapping("/{id}")
-    public @ResponseBody Optional<Stop> getStop(@PathVariable String id) {
-        return Optional.ofNullable(verifyStop(repo.findById("" + id), id));
+    public ResponseEntity<Optional<Stop>> getStop(@PathVariable String id) {
+        // return Optional.ofNullable(verifyStop(repo.findById("" + id), id));
+        Stop stop = verifyStop(repo.findById(id), id);
+        Optional<Stop> result = Optional.ofNullable(stop);
+        if (stop == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                                 .body(result);  // TODO
+                                 //.body(String.format("Stop with id %s not found", id));
+        }
+        return ResponseEntity.status(HttpStatus.OK)
+                             .body(result);
     }
 
     // TODO should probably remove this functionality

@@ -9,7 +9,6 @@ public class Stop {
 
     @Id
     private String id;
-    private String name;
     private List<Image> images;
     private TagStore tagStore;
 
@@ -27,14 +26,6 @@ public class Stop {
 
     public String getId() {
         return this.id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String setName(String name) {
-        return this.name = name;
     }
 
     public List<Image> getImages() {

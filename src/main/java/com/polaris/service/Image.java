@@ -21,6 +21,14 @@ public class Image {
         score = outdatedScore = 0;
     }
 
+    public Image(DtoImage dtoImage) {
+        this.imageUrl = dtoImage.getUrl();
+        this.altText = dtoImage.getAltText();
+        this.dateUploaded = dtoImage.getDate();
+        this.score = 0;
+        this.outdatedScore = 0;
+    }
+
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }

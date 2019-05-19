@@ -53,12 +53,8 @@ public class Stop {
         return this.tagStore = tagStore;
     }
 
-    public void incrementTag(String tag) {
-        tagStore.incrementTag(tag);
-    }
-
-    public void decrementTag(String tag) {
-        tagStore.decrementTag(tag);
+    public void updateTagCount(String tag, int count) {
+        tagStore.updateTagCount(tag, count);
     }
 
     public void addImage(Image image) {

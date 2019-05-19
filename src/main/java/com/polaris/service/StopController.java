@@ -15,26 +15,22 @@ public class StopController {
     @Autowired
     private StopRepository repo;
 
-    // TODO should probably remove this functionality
-    @PostMapping
-    public @ResponseBody String createStop(@RequestBody Stop stop) {
-        repo.save(stop);
-        return String.format("Added %s", stop);
-    }
-
-    @PutMapping("/{id}/increase/{tag}")
-    public ResponseEntity<?> incrementTag(@PathVariable String id, @PathVariable String tag) {
+    @PutMapping("/{id}/tags")
+    public ResponseEntity<?> incrementTag(@PathVariable String id, @RequestBody DtoTags tagCounts) {
         Stop stop = verifyStop(repo.findById(id), id);
         if (stop == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                                  .body(String.format("Stop with id %s not found", id));
         }
 
-        try {
-            stop.incrementTag(tag);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                                 .body(String.format("Tag %s not found", tag));
+        for (String tag : tagCounts.getTags().keySet()) {
+            try {
+                int count = tagCounts.getTags().get(tag);
+                stop.updateTagCount(tag, count);
+            } catch (IllegalArgumentException e) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body(String.format("Tag %s not found", tag));
+            }
         }
 
         repo.save(stop);
@@ -42,35 +38,16 @@ public class StopController {
                              .body(stop);
     }
 
-    @PutMapping("/{id}/decrease/{tag}")
-    public ResponseEntity<?> decrementTag(@PathVariable String id, @PathVariable String tag) {
+    @PutMapping("/{id}/image")
+    public ResponseEntity<?> addImage(@PathVariable String id, @RequestBody DtoImage imageInfo) {
         Stop stop = verifyStop(repo.findById(id), id);
         if (stop == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                                  .body(String.format("Stop with id %s not found", id));
         }
 
-        try {
-            stop.decrementTag(tag);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                                 .body(String.format("Tag %s not found", tag));
-        }
-
-        repo.save(stop);
-        return ResponseEntity.status(HttpStatus.OK)
-                             .body(stop);
-    }
-
-    @PutMapping("/{id}/add/{imagUrl}")
-    public ResponseEntity<?> addImage(@PathVariable String id, @PathVariable String imageUrl) {
-        Stop stop = verifyStop(repo.findById(id), id);
-        if (stop == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                                 .body(String.format("Stop with id %s not found", id));
-        }
-
-        //stop.addImage(imageUrl);
+        Image image = new Image(imageInfo);
+        stop.addImage(image);
         repo.save(stop);
         return ResponseEntity.status(HttpStatus.OK)
                              .body(stop);
@@ -85,13 +62,6 @@ public class StopController {
         }
         return ResponseEntity.status(HttpStatus.OK)
                              .body(stop);
-    }
-
-    // TODO should probably remove this functionality
-    @DeleteMapping("/{id}")
-    public @ResponseBody String deleteStop(@PathVariable String id) {
-        repo.deleteById(id);
-        return "Deleted " + id;
     }
 
     private Stop verifyStop(Optional<Stop> stopResult, String id) {

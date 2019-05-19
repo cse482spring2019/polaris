@@ -39,27 +39,16 @@ public class TagStore {
     }
 
     /**
-     * Increases the value of the given tag by one
+     * Updates the value of the given tag to the given count
      *
      * @param tag tag to be incremented
+     * @param count value to update tag to
      */
-    public void incrementTag(String tag) {
+    public void updateTagCount(String tag, int count) {
         if (!tagStore.containsKey(tag)) {
             throw new IllegalArgumentException("invalid tag supplied");
         }
-        tagStore.put(tag, tagStore.get(tag) + 1);
-    }
-
-    /**
-     * Decreases the value of the given tag by one
-     *
-     * @param tag tag to be decremented
-     */
-    public void decrementTag(String tag) {
-        if (!tagStore.containsKey(tag)) {
-            throw new IllegalArgumentException("invalid tag supplied");
-        }
-        tagStore.put(tag, Math.max(tagStore.get(tag) - 1, 0));
+        tagStore.put(tag, Math.max(count, 0));
     }
 
     @Override

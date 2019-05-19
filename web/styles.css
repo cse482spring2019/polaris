@@ -10,9 +10,28 @@ p {
     display: none;
 }
 
+.title-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
 .title {
     text-align: center;
-    margin-bottom: 5%;
+    margin: 2% auto;
+    width: 490px;
+    border: 1px solid grey;
+    text-decoration: underline;
+}
+
+#name {
+    margin-top: 5px;
+    margin-bottom: 0;
+}
+
+#direction {
+    margin-top: 0;
+    margin-bottom: 5px;
+    font-size: 16px;
 }
 
 #tag-header {
@@ -98,8 +117,8 @@ button {
     border: 1px solid;
     border-radius: 5px;
     background-color: #f2f2f2;
-    border-color: #808080;
-    color: #808080;
+    border-color: #666666;
+    color: #666666;
     font-weight: bold;
 }
 

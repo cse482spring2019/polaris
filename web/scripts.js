@@ -1,44 +1,32 @@
-var ESCAPE = 27; /* keycode of the escape button */
+var ESCAPE = 27;                                /* keycode of the escape button */
+var DEFAULT_ALT = "a picture of a bus stop";    /* default alt text */
 
-$(document).ready(function() {
-    var data = [{name: "Tight Spaces", count: 11},
-                {name: "Sharp Inclines", count: 42},
-                {name: "Construction Nearby", count: 91},
-                {name: "Low-Quality Sidewalk", count: 1},
-                {name: "Overgrown Foilage", count: 0},
-                {name: "Lack of Elevator", count: 77},
-                {name: "Broken Benches", count: 14},
-                {name: "Insufficient Light", count: 0}];
-    var added = new Array(data.length).fill(0);
+var stop;           /* queried stop data */
+var added;          /* array of updated tag values */
+var files;          /* files being uploaded */
 
-    data.sort(function(a, b) { return b.count - a.count; });
+/* sets everything up once we have the stop data */
+function setup(data) {
 
-    var images = ['a.jpg', 'b.jpg']
-    var files = [];
+    /* for keeping track of updated tags */
+    added = new Array(stop.data.length).fill(0);
+    files = [];
 
     /* Puts the initial tags on the page */
-    for (var i = 0; i < data.length; i++) {
+    for (var i = 0; i < stop.data.length; i++) {
         $('.tag-container').append(getTag(i));
     }
 
     /* Puts the initial images on the page */
-    if (images.length == 0) {
+    if (stop.images.length == 0) {
         $('.image-container').append(
             '<div class="empty">no images to show for this stop</div>'
         );
     } else {
-        for (var i = 0; i < images.length; i++) {
-            $('.image-container').append(getCard(images[i]));
+        for (var i = 0; i < stop.images.length; i++) {
+            $('.image-container').append(getCard(stop.images[i]));
         }
     }
-
-    // TODO: should actually get the data from the service
-    $.ajax({
-        url: "http://rest-service.guides.spring.io/greeting"
-    }).then(function(data) {
-        $('.greeting-id').append(data.id);
-        $('.greeting-content').append(data.content);
-    });
 
     /* Behavior for clicking on a tag */
     $(".tag").click(function() {
@@ -46,11 +34,11 @@ $(document).ready(function() {
         if (!$(this).attr('class').includes('tag-selected')) {
             added[i] = 1;
             $(this).attr('class', 'tag tag-selected');
-            $(this).html(format(data[i].name, data[i].count + 1));
+            $(this).html(format(stop.data[i].name, stop.data[i].count + 1));
         } else {
             added[i] = 0;
             $(this).attr('class', getClass(i));
-            $(this).html(format(data[i].name, data[i].count));
+            $(this).html(format(stop.data[i].name, stop.data[i].count));
         }
     });
 
@@ -58,7 +46,7 @@ $(document).ready(function() {
     $('#save-button').click(function() {
         $(this).text('Saving...');
 
-        for (var i = 0; i < data.length; i++) {
+        for (var i = 0; i < stop.data.length; i++) {
             //TODO; send the data to the service
         }
     });
@@ -97,8 +85,18 @@ $(document).ready(function() {
 
     /* Upload images to server and update the page */
     $('#ok').click(function() {
-        images.push(files[0].name);
-        $('.image-container').append(getCard(files[0].name, $('textarea').val()));
+        var date = new Date();
+        var newImage = {
+            'imageUrl': files[0].name,
+             'altText': $('textarea').val(),
+             'dateUploaded': date.getMonth() + 1 + '/' +
+                             date.getDate() + '/' +
+                             date.getFullYear(),
+             'score': 0,
+             'outdatedScore': 0
+        };
+        stop.images.push(newImage);
+        $('.image-container').append(getCard(newImage));
         $('.empty').remove();  /* removes the default empty text if necessary */
 
         // do the binding again since we added some cards
@@ -124,58 +122,141 @@ $(document).ready(function() {
             $('#ok').attr('title', 'please select an image before uploading');
         }
     });
+}
+
+/*
+ * Returns a String in the format "name (count)"
+ */
+function format(name, count) {
+    return name + ' (' + count + ')';
+}
+
+/*
+ * Returns the class of the tag with the given index based on counts
+ */
+function getClass(i) {
+    return (stop.data[i].count + added[i]) == 0 ? 'tag' : 'tag tag-default';
+}
+
+/*
+ * Resets the upload image modal
+ */
+function resetModal() {
+    $('textarea').val('');
+    $('#ok').attr('disabled', true);
+    $('#ok').attr('title', 'please select an image before uploading');
+    $('input[type="file"]').val('');
+    files = null;
+}
+
+/*
+ * Returns the query parameter with the given name or false if there
+ * is no such query parameter included
+ */
+function getQueryParam(name) {
+    var results = new RegExp('[\?&]' + name + '=([^&#]*)')
+        .exec(window.location.search);
+    return (results !== null) ? results[1] || 0 : false;
+}
+
+/* Returns the tag HTML for the given index in the data */
+function getTag(i) {
+    return (
+        '<button type="button" id="btn-' + i + '" class="' + getClass(i) + '">' +
+            format(stop.data[i].name, stop.data[i].count) +
+        '</button>'
+    );
+}
+
+/* Returns the image HTML for the given image and alt text */
+function getCard(image) {
+    var alt = image.altText;
+    if (alt.length == 0) {
+        alt = DEFAULT_ALT;
+    }
+
+    return (
+        '<div class="card">' +
+        '<img src="' + image.imageUrl + '" alt="' + alt + '">' +
+        '<div>date uploaded: ' + image.dateUploaded + '</div>' +
+        '</div>'
+    );
+}
+
+/* make a GET request and then load the page */
+$(document).ready(function() {
+    var data = {
+        'id': 'Tyler',
+        'images': [
+            {'imageUrl': 'a.jpg',
+             'altText': 'a nice bus stop',
+             'dateUploaded': '5/19/2018',
+             'score': 0,
+             'outdatedScore': 0
+            },
+            {'imageUrl': 'b.jpg',
+             'altText': 'a pretty nice bus stop',
+             'dateUploaded': '5/11/2019',
+             'score': 0,
+             'outdatedScore': 0
+            },
+            {'imageUrl': 'c.jpg',
+             'altText': 'a super nice bus stop',
+             'dateUploaded': '1/1/2010',
+             'score': 0,
+             'outdatedScore': 0
+            }
+        ],
+        'tags': {
+            'tagStore': {
+                'Overgrowing Foliage': 0,
+                'Construction Nearby': 0,
+                'Tight Spaces': 0,
+                'Lack of Elevator': 0,
+                'Sharp Inclines': 0,
+                'Insufficient Light': 0,
+                'Low-Quality Sidewalk': 0,
+                'Broken Benches': 0
+            }
+        }
+    }
+    stop = data;
+    $('#title').html('Tyler\'s favorite bus stop');
+    $('#name').html('Tyler\'s favorite bus stop');
+    $('#direction').html('Stop # ' + stop.id.substring(2) + ' - S bound');
+
+    /* reformat the data for use later */
+    stop.data = [];
+    Object.keys(stop.tags.tagStore).forEach(function(tag) {
+        stop.data.push({
+            'name': tag,
+            'count': stop.tags.tagStore[tag]
+        });
+    });
+    stop.data.sort(function(a, b) { return b.count - a.count; });
+    stop.images.sort(function(a, b) {
+        var d1 = Date.parse(a.dateUploaded);
+        var d2 = Date.parse(b.dateUploaded);
+
+        if (d1 > d2) return -1;
+        else if (d2 > d1) return 1;
+        else return 0;
+    });
+
+    setup(data);
 
     /*
-     * Returns a String in the format "name (count)"
-     */
-    function format(name, count) {
-        return name + ' (' + count + ')';
-    }
-
-    /*
-     * Returns the class of the tag with the given index based on counts
-     */
-    function getClass(i) {
-        return (data[i].count + added[i]) == 0 ? 'tag' : 'tag tag-default';
-    }
-
-    /*
-     * Resets the upload image modal
-     */
-    function resetModal() {
-        $('textarea').val('');
-        $('#ok').attr('disabled', true);
-        $('#ok').attr('title', 'please select an image before uploading');
-        $('input[type="file"]').val('');
-        files = null;
-    }
-
-    /*
-     * Returns the query parameter with the given name or false if there
-     * is no such query parameter included
-     */
-    function getQueryParam(name) {
-        var results = new RegExp('[\?&]' + name + '=([^&#]*)')
-            .exec(window.location.search);
-        return (results !== null) ? results[1] || 0 : false;
-    }
-
-    /* Returns the tag HTML for the given index in the data */
-    function getTag(i) {
-        return (
-            '<button type="button" id="btn-' + i + '" class="' + getClass(i) + '">' +
-                format(data[i].name, data[i].count) +
-            '</button>'
-        );
-    }
-
-    /* Returns the image HTML for the given image and alt text */
-    function getCard(image, alt = "a bus stop") {
-        return (
-            '<div class="card">' +
-                '<img src="' + image + '" alt="' + alt + '">' +
-                '<div>date uploaded: 5/18/2019</div>' +
-            '</div>'
-        );
-    }
+    $.get({
+        type: 'GET',
+        url: 'http://localhost:8080/stops/' + getQueryParam('id'),
+        contentType: 'application/json',
+        dataType: 'json',
+        success: function (data) {
+            setup(data);
+        },
+        error: function (msg, url, line) {
+            console.log('GET failed');
+        }
+    });
+    */
 });

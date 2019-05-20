@@ -1,25 +1,14 @@
-var ESCAPE = 27;                                /* keycode of the escape button */
-var DEFAULT_ALT = "a picture of a bus stop";    /* default alt text */
-
-var stop;           /* queried stop data */
-var added;          /* array of updated tag values */
-var files;          /* files being uploaded */
-
-const account = {
-    name: "polarisimages",
-    sas:  "?sv=2018-03-28&ss=b&srt=sco&sp=rwdlac&se=2019-06-17T09:30:48Z&st=2019-05-20T01:30:48Z&spr=https,http&sig=UKXLk49SPrGAF7rXcW6y4NpzcxsX3YA2tHwKWAZJBXs%3D"
-};
-
-const blobUri = 'https://' + account.name + '.blob.core.windows.net';
-const blobService = AzureStorage.Blob.createBlobServiceWithSas(blobUri, account.sas);
-const container = 'images';
+var stop;   /* queried stop data */
+var added;  /* array of updated tag values */
+var files;  /* files being uploaded */
 
 /* sets everything up once we have the stop data */
 function setup(data) {
     stop = data;
-    $('#title').html('Tyler\'s favorite bus stop');
-    $('#name').html('Tyler\'s favorite bus stop');
-    $('#direction').html('Stop # ' + stop.id.substring(2) + ' - S bound');
+
+    $('#title').html('Test bus stop');
+    $('#name').html('Test bus stop');
+    $('#direction').html('Stop # ' + stop.id.substring(2) + ' - ' + stop.direction + ' bound');
 
     /* reformat the data for use later */
     stop.data = [];
@@ -61,6 +50,7 @@ function setup(data) {
 
     /* Behavior for clicking on a tag */
     $(".tag").click(function() {
+        $('#save-button').text('Save');
         let i = $(this).attr('id').charAt(4);
         if (!$(this).attr('class').includes('tag-selected')) {
             added[i] = 1;
@@ -77,9 +67,22 @@ function setup(data) {
     $('#save-button').click(function() {
         $(this).text('Saving...');
 
-        for (let i = 0; i < stop.data.length; i++) {
-            //TODO; send the data to the service
+        let tags = {};
+        for (let i = 0; i < added.length; i++) {
+            tags[stop.data[i].name] = stop.data[i].count + added[i];
         }
+        let msg = {'tags': tags};
+
+        $.ajax({
+            type: 'PUT',
+            url: 'http://localhost:8080/stops/' + stop.id + '/tags',
+            data: JSON.stringify(msg),
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (result) {
+                $('#save-button').text('Saved!');
+            }
+        });
     });
 
     /* Opens the modal to upload an image */
@@ -121,18 +124,14 @@ function setup(data) {
             files[0].name,
             files[0],
             (error, result) => {
-                if(error) {
-                    /* TODO: handle blob error */
-                } else {
+                if(!error) {
                     let date = new Date();
                     let newImage = {
-                        'imageUrl': blobUri + "/" + container + "/" + files[0].name + account.sas,
+                        'imageUrl': blobUri + "/" + container + "/" + files[0].name + sas,
                         'altText': $('textarea').val(),
                         'dateUploaded': date.getMonth() + 1 + '/' +
-                                        date.getDate() + '/' +
-                                        date.getFullYear(),
-                        'score': 0,
-                        'outdatedScore': 0
+                        date.getDate() + '/' +
+                        date.getFullYear()
                     };
                     stop.images.push(newImage);
                     $('.image-container').append(getCard(newImage));
@@ -145,9 +144,22 @@ function setup(data) {
                         $('#modal-image').attr('src', $(this).find('img').attr('src'));
                     });
 
+                    $.ajax({
+                        type: 'PUT',
+                        url: 'http://localhost:8080/stops/' + stop.id + '/image',
+                        data: JSON.stringify(newImage),
+                        dataType: 'json',
+                        contentType: 'application/json',
+                        success: function (result) {
+                            /* don't need to do anything */
+                        }
+                    });
+
                     // clean up the form
                     resetModal();
                     $('.modal').hide();
+                } else {
+                    /* TODO: handle blob error */
                 }
             });
     });

@@ -9,13 +9,17 @@ public class Stop {
 
     @Id
     private String id;
+    private String name;
+    private String direction;
     private List<Image> images;
     private TagStore tagStore;
 
     public Stop () {}
 
-    public Stop(String id) {
+    public Stop(String id, String name, String direction) {
         this.id = id;
+        this.name = name;
+        this.direction = direction;
         this.images = new LinkedList<>();
         this.tagStore = new TagStore();
     }
@@ -27,6 +31,14 @@ public class Stop {
     public String getId() {
         return this.id;
     }
+
+    public void setName(String name) { this.name = name; }
+
+    public String getName() { return this.name; }
+
+    public void setDirection(String direction) { this.direction = direction; }
+
+    public String getDirection() { return this.direction; }
 
     public List<Image> getImages() {
         return this.images;

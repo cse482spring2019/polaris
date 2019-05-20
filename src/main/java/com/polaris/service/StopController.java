@@ -1,5 +1,7 @@
 package com.polaris.service;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -7,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
 import java.util.Optional;
 
 @Controller
@@ -83,8 +86,30 @@ public class StopController {
             return null;
         }
 
-        Stop stop = new Stop(id);
+        String[] nameAndDirection = null;
+        try {
+            nameAndDirection = getNameAndDirection(response);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+        Stop stop = new Stop(id, nameAndDirection[0], nameAndDirection[1]);
         repo.save(stop);
         return stop;
+    }
+
+    // TODO: This depends on OneBusAway API having the response in a specific format
+    private String[] getNameAndDirection(ResponseEntity<String> response) throws IOException {
+        String xmlResponseBody = response.getBody();
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode root = mapper.readTree(xmlResponseBody);
+        JsonNode data = root.get("data");
+        JsonNode entry = data.get("entry");
+
+        String[] nameAndDirection = new String[2];
+        nameAndDirection[0] = entry.get("name").asText();
+        nameAndDirection[1] = entry.get("direction").asText();
+
+        return nameAndDirection;
     }
 }

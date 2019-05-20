@@ -5,9 +5,8 @@ var files;  /* files being uploaded */
 /* sets everything up once we have the stop data */
 function setup(data) {
     stop = data;
-
-    $('#title').html('Test bus stop');
-    $('#name').html('Test bus stop');
+    $('#title').html(stop.name);
+    $('#name').html(stop.name);
     $('#direction').html('Stop # ' + stop.id.substring(2) + ' - ' + stop.direction + ' bound');
 
     /* reformat the data for use later */

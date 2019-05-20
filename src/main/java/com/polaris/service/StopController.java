@@ -20,7 +20,7 @@ public class StopController {
 
     @CrossOrigin
     @PutMapping("/{id}/tags")
-    public ResponseEntity<?> incrementTag(@PathVariable String id, @RequestBody DtoTags tagCounts) {
+    public ResponseEntity<?> updateTagCount(@PathVariable String id, @RequestBody DtoTags tagCounts) {
         Stop stop = verifyStop(repo.findById(id), id);
         if (stop == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -44,12 +44,29 @@ public class StopController {
 
     @CrossOrigin
     @PutMapping("/{id}/image")
-    public ResponseEntity<?> addImage(@PathVariable String id, @RequestBody DtoImage imageInfo) {
+    public ResponseEntity<?> updateImage(@PathVariable String id, @RequestBody DtoImage imageInfo) {
         Stop stop = verifyStop(repo.findById(id), id);
         if (stop == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                                  .body(String.format("Stop with id %s not found", id));
         }
+
+        for (Image existing : stop.getImages()) {
+            if (imageInfo.getImageUrl().equals(existing.getImageUrl())) {
+                // update score on existing image
+                if (imageInfo.getScore() != null) {
+                    existing.setScore(imageInfo.getScore());
+                }
+                if (imageInfo.getOutdatedScore() != null) {
+                    existing.setOutdatedScore(imageInfo.getOutdatedScore());
+                }
+                repo.save(stop);
+                return ResponseEntity.status(HttpStatus.OK)
+                        .body(stop);
+            }
+        }
+
+        // add new image to stop
 
         Image image = new Image(imageInfo);
         stop.addImage(image);

@@ -4,6 +4,8 @@ public class DtoImage {
     private String imageUrl;
     private String altText;
     private String dateUploaded;
+    private Integer score;
+    private Integer outdatedScore;
 
     public DtoImage() {
     }
@@ -30,5 +32,21 @@ public class DtoImage {
 
     public String getDateUploaded() {
         return this.dateUploaded;
+    }
+
+    public Integer getScore() {
+        return this.score;
+    }
+
+    public void setScore(Integer score) {
+        this.score = score;
+    }
+
+    public Integer getOutdatedScore() {
+        return this.outdatedScore;
+    }
+
+    public void setOutdatedScore(Integer outdatedScore) {
+        this.outdatedScore = outdatedScore;
     }
 }

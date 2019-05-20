@@ -243,6 +243,7 @@ $(document).ready(function() {
         url: 'http://localhost:8080/stops/' + getQueryParam('id'),
         contentType: 'text/json',
         success: function (data) {
+            $('#loading').hide();
             setup(data);
         }
     });

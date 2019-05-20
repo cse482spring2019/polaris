@@ -22,9 +22,9 @@ public class Image {
     }
 
     public Image(DtoImage dtoImage) {
-        this.imageUrl = dtoImage.getUrl();
+        this.imageUrl = dtoImage.getImageUrl();
         this.altText = dtoImage.getAltText();
-        this.dateUploaded = dtoImage.getDate();
+        this.dateUploaded = dtoImage.getDateUploaded();
         this.score = 0;
         this.outdatedScore = 0;
     }

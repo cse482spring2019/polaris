@@ -5,6 +5,15 @@ var stop;           /* queried stop data */
 var added;          /* array of updated tag values */
 var files;          /* files being uploaded */
 
+const account = {
+    name: "polarisimages",
+    sas:  "?sv=2018-03-28&ss=b&srt=sco&sp=rwdlac&se=2019-06-17T09:30:48Z&st=2019-05-20T01:30:48Z&spr=https,http&sig=UKXLk49SPrGAF7rXcW6y4NpzcxsX3YA2tHwKWAZJBXs%3D"
+};
+
+const blobUri = 'https://' + account.name + '.blob.core.windows.net';
+const blobService = AzureStorage.Blob.createBlobServiceWithSas(blobUri, account.sas);
+const container = 'images';
+
 /* sets everything up once we have the stop data */
 function setup(data) {
 
@@ -55,6 +64,7 @@ function setup(data) {
     $('#upload-button').click(function() {
         $('#upload-modal').show();
         $('input[type="file"]').focus();
+
     });
 
     /* Zoom in when an image is clicked */
@@ -85,9 +95,19 @@ function setup(data) {
 
     /* Upload images to server and update the page */
     $('#ok').click(function() {
+       blobService.createBlockBlobFromBrowserFile('images',
+                                                  files[0].name,
+                                                  files[0],
+                                                  (error, result) => {
+                                                     if(error) {
+                                                         // Handle blob error
+                                                     } else {
+                                                         console.log('Upload is successful');
+                                                     }
+                                                  });
         var date = new Date();
         var newImage = {
-            'imageUrl': files[0].name,
+            'imageUrl': blobUri + "/" + container + "/" + files[0].name + account.sas,
              'altText': $('textarea').val(),
              'dateUploaded': date.getMonth() + 1 + '/' +
                              date.getDate() + '/' +
@@ -97,6 +117,7 @@ function setup(data) {
         };
         stop.images.push(newImage);
         $('.image-container').append(getCard(newImage));
+
         $('.empty').remove();  /* removes the default empty text if necessary */
 
         // do the binding again since we added some cards

@@ -5,36 +5,34 @@ package com.polaris.service;
  */
 public class Image {
 
-    private String imageUrl;
+    private String url;
     private String altText;
-    private String dateUploaded;
-    // Higher values means the image was more helpful
-    private int score;
-    // Higher values means the image is more likely to be outdated
-    private int outdatedScore;
+    private String date;
+    private int up;
+    private int down;
 
     /**
      * Initializes a image with no information
      */
     public Image() {
-        imageUrl = altText = dateUploaded = "";
-        score = outdatedScore = 0;
+        url = altText = date = "";
+        up = down = 0;
     }
 
-    public Image(DtoImage dtoImage) {
-        this.imageUrl = dtoImage.getImageUrl();
+    public Image(DtoAddImage dtoImage) {
+        this.url = dtoImage.getUrl();
         this.altText = dtoImage.getAltText();
-        this.dateUploaded = dtoImage.getDateUploaded();
-        this.score = 0;
-        this.outdatedScore = 0;
+        this.date = dtoImage.getDate();
+        this.up = 0;
+        this.down = 0;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
-    public String getImageUrl() {
-        return this.imageUrl;
+    public String getUrl() {
+        return this.url;
     }
 
     public void setAltText(String altText) {
@@ -45,33 +43,33 @@ public class Image {
         return this.altText;
     }
 
-    public void setDateUploaded(String dateUploaded) {
-        this.dateUploaded = dateUploaded;
+    public void setDate(String date) {
+        this.date = date;
     }
 
-    public String getDateUploaded() {
-        return this.dateUploaded;
+    public String getDate() {
+        return this.date;
     }
 
-    public void setScore(int score) {
-        this.score = score;
+    public void setUp(int up) {
+        this.up = up;
     }
 
-    public int getScore() {
-        return this.score;
+    public int getUp() {
+        return this.up;
     }
 
-    public void setOutdatedScore(int outdatedScore) {
-        this.outdatedScore = outdatedScore;
+    public void setDown(int down) {
+        this.down = down;
     }
 
-    public int getOutdatedScore() {
-        return this.outdatedScore;
+    public int getDown() {
+        return this.down;
     }
 
     @Override
     public String toString() {
-        return imageUrl + " " + altText + " " + dateUploaded + " " + score + " " + outdatedScore;
+        return url + " " + altText + " " + date + " " + up + " " + down;
     }
 
 }

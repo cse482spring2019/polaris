@@ -20,7 +20,7 @@ public class StopController {
 
     @CrossOrigin
     @PutMapping("/{id}/tags")
-    public ResponseEntity<?> incrementTag(@PathVariable String id, @RequestBody DtoTags tagCounts) {
+    public ResponseEntity<?> updateTagCounts(@PathVariable String id, @RequestBody DtoTags tagCounts) {
         Stop stop = verifyStop(repo.findById(id), id);
         if (stop == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -44,18 +44,58 @@ public class StopController {
 
     @CrossOrigin
     @PutMapping("/{id}/image")
-    public ResponseEntity<?> addImage(@PathVariable String id, @RequestBody DtoImage imageInfo) {
+    public ResponseEntity<?> addImage(@PathVariable String id, @RequestBody DtoAddImage imageInfo) {
         Stop stop = verifyStop(repo.findById(id), id);
         if (stop == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                                  .body(String.format("Stop with id %s not found", id));
         }
 
+        for (Image existing : stop.getImages()) {
+            if (imageInfo.getUrl().equals(existing.getUrl())) {
+                // image already exists in stop (update alt text and date)
+                existing.setAltText(imageInfo.getAltText());
+                existing.setDate(imageInfo.getDate());
+                repo.save(stop);
+                return ResponseEntity.status(HttpStatus.OK)
+                                     .body(stop);
+            }
+        }
+
+        // add image to stop
         Image image = new Image(imageInfo);
         stop.addImage(image);
         repo.save(stop);
         return ResponseEntity.status(HttpStatus.OK)
                              .body(stop);
+    }
+
+    @CrossOrigin
+    @PutMapping("/{id}/image/score")
+    public ResponseEntity<?> updateImageScores(@PathVariable String id, @RequestBody DtoImageScores imageInfo) {
+        Stop stop = verifyStop(repo.findById(id), id);
+        if (stop == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                                 .body(String.format("Stop with id %s not found", id));
+        }
+
+        for (Image existing : stop.getImages()) {
+            if (imageInfo.getUrl().equals(existing.getUrl())) {
+                // update score on existing image
+                if (imageInfo.getUp() != null) {
+                    existing.setUp(imageInfo.getUp());
+                }
+                if (imageInfo.getDown() != null) {
+                    existing.setDown(imageInfo.getDown());
+                }
+                repo.save(stop);
+                return ResponseEntity.status(HttpStatus.OK)
+                                     .body(stop);
+            }
+        }
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                             .body(String.format("Image with url %s not found for stop id %s", imageInfo.getUrl(), id));
     }
 
     @CrossOrigin

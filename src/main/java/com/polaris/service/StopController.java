@@ -18,6 +18,7 @@ public class StopController {
     @Autowired
     private StopRepository repo;
 
+    @CrossOrigin
     @PutMapping("/{id}/tags")
     public ResponseEntity<?> incrementTag(@PathVariable String id, @RequestBody DtoTags tagCounts) {
         Stop stop = verifyStop(repo.findById(id), id);
@@ -41,6 +42,7 @@ public class StopController {
                              .body(stop);
     }
 
+    @CrossOrigin
     @PutMapping("/{id}/image")
     public ResponseEntity<?> addImage(@PathVariable String id, @RequestBody DtoImage imageInfo) {
         Stop stop = verifyStop(repo.findById(id), id);
@@ -56,6 +58,7 @@ public class StopController {
                              .body(stop);
     }
 
+    @CrossOrigin
     @GetMapping("/{id}")
     public ResponseEntity<?> getStop(@PathVariable String id) {
         Stop stop = verifyStop(repo.findById(id), id);

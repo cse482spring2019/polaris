@@ -12,16 +12,37 @@ public class Stop {
     private String name;
     private String direction;
     private List<Image> images;
-    private TagStore tagStore;
+    private List<Tag> tags;
 
-    public Stop () {}
+    private static final String[] TAG_NAMES = new String[]{
+            "Tight Spaces",
+            "Sharp Inclines",
+            "Construction Nearby",
+            "Low-Quality Sidewalk",
+            "Overgrowing Foliage",
+            "Lack of Elevator",
+            "Broken Benches",
+            "Insufficient Light"
+    };
+
+    public Stop () {
+        this.tags = initializeTags();
+    }
 
     public Stop(String id, String name, String direction) {
         this.id = id;
         this.name = name;
         this.direction = direction;
         this.images = new LinkedList<>();
-        this.tagStore = new TagStore();
+        this.tags = initializeTags();
+    }
+
+    private List<Tag> initializeTags() {
+        List<Tag> tags = new LinkedList<>();
+        for (String name : TAG_NAMES) {
+            tags.add(new Tag(name));
+        }
+        return tags;
     }
 
     public void setId(String id) {
@@ -44,20 +65,26 @@ public class Stop {
         return this.images;
     }
 
-    public List<Image> setImages(List<Image> images) {
-        return this.images = images;
+    public void setImages(List<Image> images) {
+        this.images = images;
     }
 
-    public TagStore getTags() {
-        return this.tagStore;
+    public List<Tag> getTags() {
+        return this.tags;
     }
 
-    public TagStore setTagStore(TagStore tagStore) {
-        return this.tagStore = tagStore;
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
     }
 
-    public void updateTagCount(String tag, int count) {
-        tagStore.updateTagCount(tag, count);
+    public void updateTagCount(String tagName, int count) {
+        for (Tag tag : this.tags) {
+            if (tag.getName().equals(tagName)) {
+                tag.setCount(count);
+                return;
+            }
+        }
+        throw new IllegalArgumentException("tag name invalid");
     }
 
     public void addImage(Image image) {

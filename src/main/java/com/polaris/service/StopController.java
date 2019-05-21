@@ -30,13 +30,12 @@ public class StopController {
                                  .body(String.format("Stop with id %s not found", id));
         }
 
-        for (String tag : tagCounts.getTags().keySet()) {
+        for (Tag tag : tagCounts.getTags()) {
             try {
-                int count = tagCounts.getTags().get(tag);
-                stop.updateTagCount(tag, count);
+                stop.updateTagCount(tag.getName(), tag.getCount());
             } catch (IllegalArgumentException e) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                                     .body(String.format("Tag %s not found", tag));
+                                     .body(String.format("Tag %s not found", tag.getName()));
             }
         }
 

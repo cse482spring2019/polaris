@@ -279,6 +279,15 @@ textarea {
     }
 }
 
+.error {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  font-size: 24px;
+}
+
 /* for the loading page */
 .lds-dual-ring {
   position: absolute;
@@ -302,6 +311,7 @@ textarea {
   border-color: grey transparent grey transparent;
   animation: lds-dual-ring 1.2s linear infinite;
 }
+
 @keyframes lds-dual-ring {
   0% {
     transform: rotate(0deg);

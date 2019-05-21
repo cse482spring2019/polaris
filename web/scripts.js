@@ -133,7 +133,7 @@ function setup(data) {
                         date.getFullYear()
                     };
                     stop.images.push(newImage);
-                    $('.image-container').append(getCard(newImage));
+                    $('.image-container').prepend(getCard(newImage));
 
                     $('.empty').remove();  /* removes the default empty text if necessary */
 
@@ -161,6 +161,11 @@ function setup(data) {
                     /* TODO: handle blob error */
                 }
             });
+    });
+
+    $('#stop-modal').click(function() {
+        resetModal();
+        $('.modal').hide();
     });
 
     /* Locally save uploaded files and enable the 'Ok' button */
@@ -245,6 +250,13 @@ $(document).ready(function() {
         success: function (data) {
             $('#loading').hide();
             setup(data);
+        },
+        error: function (err) {
+            $('.lds-dual-ring').remove();
+            $('#loading').append(
+                '<div class="error">A ' + err.status + ' error occurred. ' + err.responseText + '</div>'
+            );
+            console.log(err);
         }
     });
 });

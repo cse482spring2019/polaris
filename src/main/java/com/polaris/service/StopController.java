@@ -66,8 +66,13 @@ public class StopController {
     public ResponseEntity<?> getStop(@PathVariable String id) {
         Stop stop = verifyStop(repo.findById(id), id);
         if (stop == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                                 .body(String.format("Stop with id %s not found", id));
+            String res;
+            if (id.equals("false")) {
+                res = "No stop number was provided.";
+            } else {
+                res = "Stop number " + id + " was not found.";
+            }
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(res);
         }
         return ResponseEntity.status(HttpStatus.OK)
                              .body(stop);

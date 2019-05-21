@@ -16,10 +16,6 @@ p {
     background-color: white;
 }
 
-.save p {
-    display: none;
-}
-
 .title-wrapper {
     display: flex;
     justify-content: center;
@@ -53,18 +49,20 @@ p {
     margin-bottom: 25px;
 }
 
-.tag-container {
+.container {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    width: 50%;
     margin: 0 auto;
 }
 
+.tag-container {
+    width: 50%;
+    margin-bottom: 10px;
+}
+
 .image-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    margin-bottom: 10px;
 }
 
 .center {
@@ -182,9 +180,9 @@ textarea {
 }
 
 #ok {
-    background-color: honeydew;
-    border-color: forestgreen;
-    color: forestgreen;
+    background-color: #f2f9eb;
+    color: #319449;
+    border-color: #319449;
 }
 
 #ok:disabled {

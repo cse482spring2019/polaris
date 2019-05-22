@@ -93,6 +93,6 @@ public class Stop {
 
     @Override
     public String toString() {
-        return "Stop{" + id + "}";
+        return "Stop{" + id + " " + name + " " + direction + "}" + images + tags;
     }
 }

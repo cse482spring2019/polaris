@@ -4,7 +4,9 @@ public class Tag {
     private String name;
     private int count;
 
-    public Tag() {}
+    public Tag() {
+        this("");
+    }
 
     public Tag(String name) {
         this.name = name;

@@ -27,50 +27,39 @@
                         <p id="direction"></p>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-sm-4 text-center mb-5">
+                <div class="row mb-5">
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-3 text-center mb-5">
                         <h3>Overall Score</h3>
                         <h1 id="score">4.7</h1>
                         <p>(97 ratings)</p>
                     </div>
-                    <div class="col-sm-7 text-center">
+                    <div class="col-sm-7 center-small">
                         <h3>Tags for this stop</h3>
                         <p><i>select and save these tags to share your thoughts</i></p>
                         <div class="tag-container mb-2"></div>
-                        <div class="text-center">
-                            <button id="save-button" type="button">Save</button>
-                        </div<
+                        <button id="save-button" type="button">Save</button>
+                        <div class="col-sm-1"></div>
                     </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-10">
+                        <div class="image-container">
+                            <div id="stop-modal" class="modal">
+                                <span class="close">&times</span>
+                                <img id="modal-image">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-1"></div>
                 </div>
             </div>
         </div>
     </body>
 
     <!--
-    <body>
-        <div id="loading"><div class="lds-dual-ring"></div></div>
-        <div class="title-wrapper">
-            <div class="title">
-                <h2 id="name"></h2>
-                <p id="direction"></p>
-            </div>
-        </div>
-        <h3 id="tag-header" class="center">What have users said about this stop?</h3>
-        <p id="tag-helptext" class="center">
-            <i>select and save the tags below to share your thoughts</i>
-        </p>
-        <div class="container tag-container"></div>
-        <div class="save">
-            <button id="save-button" type="button">Save</button>
-        </div>
-
         <h3 id="image-header" class="center">What does the stop look like?</h3>
-        <div class="container image-container">
-            <div id="stop-modal" class="modal">
-                <span class="close">&times</span>
-                <img id="modal-image">
-            </div>
-        </div>
         <div class="upload">
             <div id="upload-modal" class="modal">
                 <span class="close">&times</span>

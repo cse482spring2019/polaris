@@ -266,14 +266,14 @@ $(document).ready(function() {
         "direction":"NE",
         "images":[
             {
-                "imageUrl":"https://polarisImages.blob.core.windows.net/images/a.jpg?sv=2018-03-28&ss=b&srt=sco&sp=rwdlac&se=2019-06-17T09:30:48Z&st=2019-05-20T01:30:48Z&spr=https,http&sig=UKXLk49SPrGAF7rXcW6y4NpzcxsX3YA2tHwKWAZJBXs%3D",
+                "imageUrl":"images/a.jpg",
                 "altText":"a great bus stop",
                 "dateUploaded":"5/19/2019",
                 "score":0,
                 "outdatedScore":0
             },
             {
-                "imageUrl":"https://polarisImages.blob.core.windows.net/images/b.jpg?sv=2018-03-28&ss=b&srt=sco&sp=rwdlac&se=2019-06-17T09:30:48Z&st=2019-05-20T01:30:48Z&spr=https,http&sig=UKXLk49SPrGAF7rXcW6y4NpzcxsX3YA2tHwKWAZJBXs%3D",
+                "imageUrl":"images/b.jpg",
                 "altText":"A really great bus stop",
                 "dateUploaded":"5/20/2019",
                 "score":0,

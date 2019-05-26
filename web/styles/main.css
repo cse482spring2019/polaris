@@ -1,52 +1,76 @@
-h1#score {
+h3#score {
     font-size: 6em;
 }
 
-.jumbotron {
-    background-color: whitesmoke;
+body {
+    font-family: Arial;
 }
 
-button {
-    padding: 15px 15px;
-    margin: 3px;
-    min-width: 100px;
-
-    border: 1px solid;
-    border-radius: 5px;
-    font-size: 0.85em;
-    background-color: #f2f2f2;
-    border-color: #666666;
-    color: #666666;
-    font-weight: bold;
+#loading {
+    position: fixed; /* Stay in place */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: white;
 }
 
-.tag {
-    width: 220px;
-    background-color: #f2f2f2;
-    border-color: #666666;
-    color: #666666;
+.title-wrapper {
+    display: flex;
+    justify-content: center;
 }
 
-.tag:hover {
-    opacity: 0.8;
+.title {
+    text-align: center;
+    margin: 2% auto;
+    width: 490px;
+    border: 1px solid grey;
 }
 
-.tag-default {
-    background-color: #f2f9eb;
-    border-color: #319449;
-    color: #319449;
+#name {
+    margin-top: 5px;
+    margin-bottom: 0;
 }
 
-.tag-selected {
-    background-color: #319449;
-    border-color: #319449;
-    color: #f2f9eb;
+#direction {
+    margin-top: 0;
+    margin-bottom: 5px;
+    font-size: 16px;
+}
+
+#tag-header {
+    margin-bottom: 0;
+}
+
+#tag-helptext {
+    margin-top: 5px;
+    margin-bottom: 25px;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.tag-container {
+    width: 50%;
+    margin-bottom: 10px;
+}
+
+.image-container {
+    margin-bottom: 10px;
+}
+
+.center {
+    text-align: center;
 }
 
 .card {
     border-radius: 5px;
     cursor: pointer;
-    display: inline-block;
     margin: 5px;
     transition: all 0.3s;
 }
@@ -56,7 +80,7 @@ button {
 }
 
 .card div {
-    font-size: 13.3333px;
+    font-size: 0.85em;
     text-align: right;
     padding: 5px;
 }
@@ -64,6 +88,82 @@ button {
 .card img {
     border-radius: 5px;
     height: 300px;
+}
+
+.save {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 3%;
+}
+
+.upload {
+    display: flex;
+    justify-content: center;
+}
+
+.empty {
+    margin-bottom: 20px;
+    font-style: italic;
+}
+
+button:enabled, label {
+    cursor: pointer;
+}
+
+button:hover, label:hover {
+    opacity: 0.8;
+}
+
+button {
+    padding: 15px 15px;
+    margin: 3px;
+    display: inline-block;
+    min-width: 100px;
+
+    border: 1px solid;
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    border-color: #666666;
+    color: #666666;
+    font-size: 0.9em;
+    font-weight: bold;
+}
+
+.tag {
+    width: 220px;
+}
+
+.tag-default {
+    background-color: #f2f9eb;
+    color: #319449;
+    border-color: #319449;
+}
+
+.tag-selected {
+    background-color: #319449;
+    color: #f2f9eb;
+    border-color: #319449;
+}
+
+input[type=file] {
+    margin: 20px auto;
+}
+
+.input-wrapper {
+    text-align: center;
+}
+
+textarea {
+    font-family: Arial;
+    border: 1px solid grey;
+    border-radius: 5px;
+    padding: 5px;
+
+    height: 140px;
+    width: 100%;
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
+    box-sizing: border-box;         /* Opera/IE 8+ */
 }
 
 .modal-buttons {
@@ -158,6 +258,33 @@ button {
     cursor: pointer;
 }
 
+@media only screen and (max-width: 1400px) {
+    #image-form {
+        width: 75%;
+    }
+}
+
+/* 100% Image Width on Smaller Screens */
+@media only screen and (max-width: 700px) {
+    #modal-image {
+        width: 100%;
+        height: auto;
+    }
+
+    #image-form {
+        width: 90%;
+    }
+}
+
+.error {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  font-size: 24px;
+}
+
 /* for the loading page */
 .lds-dual-ring {
   position: absolute;
@@ -182,24 +309,11 @@ button {
   animation: lds-dual-ring 1.2s linear infinite;
 }
 
-@media only screen and (max-width: 1400px) {
-    #image-form {
-        width: 75%;
-    }
-}
-
-/* 100% Image Width on Smaller Screens */
-@media only screen and (max-width: 700px) {
-    #modal-image {
-        width: 100%;
-        height: auto;
-    }
-
-    #image-form {
-        width: 90%;
-    }
-
-    .center-small {
-        text-align: center;
-    }
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

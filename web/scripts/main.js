@@ -17,11 +17,13 @@ const BLOB_STORE = AzureStorage.Blob.createBlobServiceWithSas(URI, SAS);
 /* sets everything up once we have the stop data */
 function setup(data) {
     stop = data;
-    $('#title').html(stop.name);
-    $('#name').html(stop.name);
-    $('#direction').html(
+    $('title').html(stop.name);
+    $('.title h2').html(stop.name);
+    $('.title p').html(
         'Stop # ' + stop.id.substring(2) + ' - ' + stop.direction + ' bound'
     );
+    $('#score h1').html(stop.score);
+    $('#score p').html('(' + stop.ratings + ' ratings)');
 
     /* reformat the data for use later */
     stop.data = [];
@@ -107,8 +109,8 @@ function setup(data) {
 
     /* Zoom in when an image is clicked */
     $('.card').click(function() {
-        $('#stop-modal').show();
-        $('#modal-image').attr('src', $(this).find('img').attr('src'));
+        $('#img-modal').show();
+        $('#img-modal img').attr('src', $(this).find('img').attr('src'));
     });
 
     /* Close the modal */
@@ -154,8 +156,8 @@ function setup(data) {
 
                     // do the binding again since we added some cards
                     $('.card').click(function() {
-                        $('#stop-modal').show();
-                        $('#modal-image').attr('src',
+                        $('#img-modal').show();
+                        $('#img-modal img').attr('src',
                             $(this).find('img').attr('src')
                         );
                     });
@@ -180,7 +182,7 @@ function setup(data) {
             });
     });
 
-    $('#stop-modal').click(function() {
+    $('#img-modal').click(function() {
         resetModal();
         $('.modal').hide();
     });
@@ -264,6 +266,8 @@ $(document).ready(function() {
         "id":"1_1000",
         "name":"Pine St & 9th Ave",
         "direction":"NE",
+        "score":4.7,
+        "ratings":11,
         "images":[
             {
                 "imageUrl":"images/a.jpg",
@@ -282,7 +286,7 @@ $(document).ready(function() {
             "tagStore":{
                 "Overgrowing Foliage":1,
                 "Construction Nearby":1,
-                "Tight Spaces":2,
+                "Tight Spaces":4,
                 "Lack of Elevator":1,
                 "Sharp Inclines":2,
                 "Insufficient Light":1,

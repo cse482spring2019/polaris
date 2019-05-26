@@ -1,4 +1,4 @@
-h3#score {
+h1 {
     font-size: 6em;
 }
 
@@ -16,36 +16,68 @@ body {
     background-color: white;
 }
 
-.title-wrapper {
-    display: flex;
-    justify-content: center;
-}
-
 .title {
     text-align: center;
     margin: 2% auto;
-    width: 490px;
+    max-width: 490px;
     border: 1px solid grey;
 }
 
-#name {
+.row h3 {
+    margin-bottom: 0;
+}
+
+.row p {
+    margin-top: 5px;
+    margin-bottom: 25px;
+}
+
+.col {
+    display: inline-block;
+}
+
+.col-25 {
+    min-width: 24%;
+}
+
+.col-75 {
+    max-width: 74%;
+}
+
+.title h2 {
     margin-top: 5px;
     margin-bottom: 0;
 }
 
-#direction {
+.title p {
     margin-top: 0;
     margin-bottom: 5px;
     font-size: 16px;
 }
 
-#tag-header {
+#score {
+    vertical-align: top;
+    margin-bottom: 3%;
+}
+
+#score h3 {
     margin-bottom: 0;
 }
 
-#tag-helptext {
-    margin-top: 5px;
-    margin-bottom: 25px;
+#score h1,
+#score p {
+    margin: 0;
+}
+
+#tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 0 auto 3% auto;
+}
+
+.wrapper {
+    max-width: 80%;
 }
 
 .container {
@@ -56,11 +88,11 @@ body {
 }
 
 .tag-container {
-    width: 50%;
     margin-bottom: 10px;
 }
 
 .image-container {
+    width: 80%;
     margin-bottom: 10px;
 }
 
@@ -96,11 +128,6 @@ body {
     margin-bottom: 3%;
 }
 
-.upload {
-    display: flex;
-    justify-content: center;
-}
-
 .empty {
     margin-bottom: 20px;
     font-style: italic;
@@ -123,8 +150,8 @@ button {
     border: 1px solid;
     border-radius: 5px;
     background-color: #f2f2f2;
-    border-color: #666666;
-    color: #666666;
+    border-color: #4d4d4d;
+    color: #4d4d4d;
     font-size: 0.9em;
     font-weight: bold;
 }
@@ -135,14 +162,14 @@ button {
 
 .tag-default {
     background-color: #f2f9eb;
-    color: #319449;
-    border-color: #319449;
+    color: #206030;
+    border-color: #206030;
 }
 
 .tag-selected {
-    background-color: #319449;
+    background-color: #206030;
     color: #f2f9eb;
-    border-color: #319449;
+    border-color: #206030;
 }
 
 input[type=file] {
@@ -204,7 +231,7 @@ textarea {
 }
 
 /* Modal Content (Image) */
-#modal-image { 
+#img-modal img{ 
     margin: auto;
     display: block;
     height: 80%;
@@ -266,7 +293,7 @@ textarea {
 
 /* 100% Image Width on Smaller Screens */
 @media only screen and (max-width: 700px) {
-    #modal-image {
+    #img-modal img {
         width: 100%;
         height: auto;
     }

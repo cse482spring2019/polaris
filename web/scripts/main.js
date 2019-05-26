@@ -2,12 +2,26 @@ var stop;   /* queried stop data */
 var added;  /* array of updated tag values */
 var files;  /* files being uploaded */
 
+const ESCAPE = 27;                              /* keycode of the escape button */
+const DEFAULT_ALT = "a picture of a bus stop";  /* default alt text */
+
+/* constants for interaction with the blob store */
+const ACC_NAME = 'polarisImages'
+const CONTAINER = 'images';
+const URI = 'https://' + ACC_NAME + '.blob.core.windows.net';
+const SAS = '?sv=2018-03-28&ss=b&srt=sco&sp=rwdlac&se=2019-06-17T09:30:48' +
+            'Z&st=2019-05-20T01:30:48Z&spr=https,http&sig=UKXLk49SPrGAF7r' +
+            'XcW6y4NpzcxsX3YA2tHwKWAZJBXs%3D';
+const BLOB_STORE = AzureStorage.Blob.createBlobServiceWithSas(URI, SAS);
+
 /* sets everything up once we have the stop data */
 function setup(data) {
     stop = data;
     $('#title').html(stop.name);
     $('#name').html(stop.name);
-    $('#direction').html('Stop # ' + stop.id.substring(2) + ' - ' + stop.direction + ' bound');
+    $('#direction').html(
+        'Stop # ' + stop.id.substring(2) + ' - ' + stop.direction + ' bound'
+    );
 
     /* reformat the data for use later */
     stop.data = [];
@@ -119,14 +133,15 @@ function setup(data) {
 
     /* Upload images to server and update the page */
     $('#ok').click(function() {
-        blobService.createBlockBlobFromBrowserFile('images',
+        BLOB_STORE.createBlockBlobFromBrowserFile('images',
             files[0].name,
             files[0],
             (error, result) => {
                 if(!error) {
                     let date = new Date();
                     let newImage = {
-                        'imageUrl': blobUri + "/" + container + "/" + files[0].name + sas,
+                        'imageUrl': URI + "/" + CONTAINER + "/" + 
+                                    files[0].name + SAS,
                         'altText': $('textarea').val(),
                         'dateUploaded': date.getMonth() + 1 + '/' +
                         date.getDate() + '/' +
@@ -135,12 +150,14 @@ function setup(data) {
                     stop.images.push(newImage);
                     $('.image-container').prepend(getCard(newImage));
 
-                    $('.empty').remove();  /* removes the default empty text if necessary */
+                    $('.empty').remove();  /* remove default empty text */
 
                     // do the binding again since we added some cards
                     $('.card').click(function() {
                         $('#stop-modal').show();
-                        $('#modal-image').attr('src', $(this).find('img').attr('src'));
+                        $('#modal-image').attr('src',
+                            $(this).find('img').attr('src')
+                        );
                     });
 
                     $.ajax({
@@ -243,12 +260,47 @@ function getCard(image) {
 
 /* make a GET request and then load the page */
 $(document).ready(function() {
+    let data = {
+        "id":"1_1000",
+        "name":"Pine St & 9th Ave",
+        "direction":"NE",
+        "images":[
+            {
+                "imageUrl":"https://polarisImages.blob.core.windows.net/images/a.jpg?sv=2018-03-28&ss=b&srt=sco&sp=rwdlac&se=2019-06-17T09:30:48Z&st=2019-05-20T01:30:48Z&spr=https,http&sig=UKXLk49SPrGAF7rXcW6y4NpzcxsX3YA2tHwKWAZJBXs%3D",
+                "altText":"a great bus stop",
+                "dateUploaded":"5/19/2019",
+                "score":0,
+                "outdatedScore":0
+            },
+            {
+                "imageUrl":"https://polarisImages.blob.core.windows.net/images/b.jpg?sv=2018-03-28&ss=b&srt=sco&sp=rwdlac&se=2019-06-17T09:30:48Z&st=2019-05-20T01:30:48Z&spr=https,http&sig=UKXLk49SPrGAF7rXcW6y4NpzcxsX3YA2tHwKWAZJBXs%3D",
+                "altText":"A really great bus stop",
+                "dateUploaded":"5/20/2019",
+                "score":0,
+                "outdatedScore":0}],
+        "tags":{
+            "tagStore":{
+                "Overgrowing Foliage":1,
+                "Construction Nearby":1,
+                "Tight Spaces":2,
+                "Lack of Elevator":1,
+                "Sharp Inclines":2,
+                "Insufficient Light":1,
+                "Low-Quality Sidewalk":1,
+                "Broken Benches":0
+            }
+        }};
+
+    $('#loading').hide();
+    setup(data);
+    /*
     $.ajax({
         type: 'GET',
         url: 'http://localhost:8080/stops/' + getQueryParam('id'),
         contentType: 'text/json',
         success: function (data) {
             $('#loading').hide();
+            console.log(JSON.stringify(data));
             setup(data);
         },
         error: function (err) {
@@ -259,4 +311,5 @@ $(document).ready(function() {
             console.log(err);
         }
     });
+    */
 });

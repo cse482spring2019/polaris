@@ -2,13 +2,51 @@
 <html>
     <head>
         <title id="title"></title>
-        <script type="text/javascript" src="jquery-3.4.1.min.js"></script>
-        <script type="text/javascript "src="azure-storage.blob.min.js" charset="utf-8"></script>
-        <script type="text/javascript" src="defs.js"></script>
-        <script type="text/javascript" src="scripts.js"></script>
-        <link rel="stylesheet" href="styles.css">
+
+        <!-- bootstrap -->
+        <link rel="stylesheet" href="styles/bootstrap.min.css">
+        <link rel="stylesheet" href="styles/bootstrap-grid.min.css">
+        <link rel="stylesheet" href="styles/bootstrap-reboot.min.css">
+        <script type="text/javascript" src="scripts/bootstrap.min.js"></script>
+
+        <!-- custom -->
+        <link rel="stylesheet" href="styles/main.css">
+        <script type="text/javascript" src="scripts/jquery-3.4.1.min.js"></script>
+        <script type="text/javascript" src="scripts/azure-storage.blob.min.js" charset="utf-8"></script>
+        <script type="text/javascript" src="scripts/main.js"></script>
+
     </head>
 
+    <body>
+        <div id="loading"><div class="lds-dual-ring"></div></div>
+        <div class="jumbotron">
+            <div class="container-fluid">
+                <div class="row mb-5">
+                    <div class="col-12 text-center">
+                        <h2 id="name"></h2>
+                        <p id="direction"></p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4 text-center mb-5">
+                        <h3>Overall Score</h3>
+                        <h1 id="score">4.7</h1>
+                        <p>(97 ratings)</p>
+                    </div>
+                    <div class="col-sm-7 text-center">
+                        <h3>Tags for this stop</h3>
+                        <p><i>select and save these tags to share your thoughts</i></p>
+                        <div class="tag-container mb-2"></div>
+                        <div class="text-center">
+                            <button id="save-button" type="button">Save</button>
+                        </div<
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+
+    <!--
     <body>
         <div id="loading"><div class="lds-dual-ring"></div></div>
         <div class="title-wrapper">
@@ -57,4 +95,5 @@
             <button id="upload-button" type="button">Select Image to Upload</label>
         </div>
     </body>
+    -->
 </html>

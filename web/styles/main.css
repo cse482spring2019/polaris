@@ -23,6 +23,10 @@ body {
     border: 1px solid grey;
 }
 
+#tag-row {
+    margin-bottom: 2%;
+}
+
 .row h3 {
     margin-bottom: 0;
 }
@@ -69,13 +73,6 @@ body {
     margin: 0;
 }
 
-#tag-row {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin: 0 auto 3% auto;
-}
-
 .wrapper {
     max-width: 80%;
 }
@@ -88,7 +85,11 @@ body {
 }
 
 .tag-container {
-    margin-bottom: 10px;
+    width: 50%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 0 auto 10px auto;
 }
 
 .image-container {

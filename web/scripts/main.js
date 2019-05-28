@@ -9,9 +9,9 @@ const DEFAULT_ALT = "a picture of a bus stop";  /* default alt text */
 const ACC_NAME = 'polarisImages'
 const CONTAINER = 'images';
 const URI = 'https://' + ACC_NAME + '.blob.core.windows.net';
-const SAS = '?sv=2018-03-28&ss=b&srt=sco&sp=rwdlac&se=2019-06-17T09:30:48' +
-            'Z&st=2019-05-20T01:30:48Z&spr=https,http&sig=UKXLk49SPrGAF7r' +
-            'XcW6y4NpzcxsX3YA2tHwKWAZJBXs%3D';
+const SAS = '?sv=2018-03-28&ss=b&srt=sco&sp=rwdlac&se=2019-06-29T03:' +
+            '16:47Z&st=2019-05-28T19:16:47Z&spr=https&sig=7fmidcPpGw' + 
+            'wNu2CPqV%2B10d9jketDmm7p08BgVYiuMhc%3D';
 const BLOB_STORE = AzureStorage.Blob.createBlobServiceWithSas(URI, SAS);
 
 /* sets everything up once we have the stop data */
@@ -262,49 +262,12 @@ function getCard(image) {
 
 /* make a GET request and then load the page */
 $(document).ready(function() {
-    let data = {
-        "id":"1_1000",
-        "name":"Pine St & 9th Ave",
-        "direction":"NE",
-        "score":4.7,
-        "ratings":11,
-        "images":[
-            {
-                "imageUrl":"images/a.jpg",
-                "altText":"a great bus stop",
-                "dateUploaded":"5/19/2019",
-                "score":0,
-                "outdatedScore":0
-            },
-            {
-                "imageUrl":"images/b.jpg",
-                "altText":"A really great bus stop",
-                "dateUploaded":"5/20/2019",
-                "score":0,
-                "outdatedScore":0}],
-        "tags":{
-            "tagStore":{
-                "Overgrowing Foliage":1,
-                "Construction Nearby":1,
-                "Tight Spaces":4,
-                "Lack of Elevator":1,
-                "Sharp Inclines":2,
-                "Insufficient Light":1,
-                "Low-Quality Sidewalk":1,
-                "Broken Benches":0
-            }
-        }};
-
-    $('#loading').hide();
-    setup(data);
-    /*
     $.ajax({
         type: 'GET',
         url: 'http://localhost:8080/stops/' + getQueryParam('id'),
         contentType: 'text/json',
         success: function (data) {
             $('#loading').hide();
-            console.log(JSON.stringify(data));
             setup(data);
         },
         error: function (err) {
@@ -315,5 +278,4 @@ $(document).ready(function() {
             console.log(err);
         }
     });
-    */
 });

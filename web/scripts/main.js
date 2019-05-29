@@ -24,6 +24,9 @@ function setup(data) {
     );
     $('#score h1').html(stop.score);
     $('#score p').html('(' + stop.ratings + ' ratings)');
+    $('#access-text').html(
+        '<i>accessible to ' + stop.yes + ' users, inaccessible to ' + stop.no + ' users</i>'
+    );
 
     /* reformat the data for use later */
     stop.data = [];
@@ -125,6 +128,18 @@ function setup(data) {
             resetModal();
             $('.modal').hide();
         }
+    });
+
+    $('#yes').click(function() {
+        $('#no').attr('disabled', true);
+        $('#yes').html('Saving...');
+        // TODO: send to the server
+    });
+
+    $('#no').click(function() {
+        $('#yes').attr('disabled', true);
+        $('#no').html('Saving...');
+        // TODO: send to the server
     });
 
     /* Close the modal when 'Cancel' is clicked */
@@ -262,12 +277,38 @@ function getCard(image) {
 
 /* make a GET request and then load the page */
 $(document).ready(function() {
+    let data = {
+        "id":"1_1000",
+        "name":"Pine St & 9th Ave",
+        "direction":"NE",
+        "yes":21,
+        "no":7,
+        "images":[],
+        "tags":{
+            "tagStore":{
+                "Overgrowing Foliage":0,
+                "Construction Nearby":0,
+                "Tight Spaces":0,
+                "Lack of Elevator":0,
+                "Sharp Inclines":0,
+                "Insufficient Light":0,
+                "Low-Quality Sidewalk":0,
+                "Broken Benches":0
+            }
+        }
+    };
+
+    $('#loading').hide();
+    setup(data);
+
+    /*
     $.ajax({
         type: 'GET',
         url: 'http://localhost:8080/stops/' + getQueryParam('id'),
         contentType: 'text/json',
         success: function (data) {
             $('#loading').hide();
+            console.log(JSON.stringify(data));
             setup(data);
         },
         error: function (err) {
@@ -278,4 +319,5 @@ $(document).ready(function() {
             console.log(err);
         }
     });
+    */
 });

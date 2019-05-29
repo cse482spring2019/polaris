@@ -12,7 +12,9 @@ public class Stop {
     private String name;
     private String direction;
     private List<Image> images;
-    private TagStore tagStore;
+    private TagStore tags;
+    private Integer yesAccessible;
+    private Integer noAccessible;
 
     public Stop () {}
 
@@ -21,7 +23,7 @@ public class Stop {
         this.name = name;
         this.direction = direction;
         this.images = new LinkedList<>();
-        this.tagStore = new TagStore();
+        this.tags = new TagStore();
     }
 
     public void setId(String id) {
@@ -44,20 +46,36 @@ public class Stop {
         return this.images;
     }
 
-    public List<Image> setImages(List<Image> images) {
-        return this.images = images;
+    public void setImages(List<Image> images) {
+        this.images = images;
     }
 
     public TagStore getTags() {
-        return this.tagStore;
+        return this.tags;
     }
 
-    public TagStore setTagStore(TagStore tagStore) {
-        return this.tagStore = tagStore;
+    public void setTags(TagStore tags) {
+        this.tags = tags;
+    }
+
+    public Integer getYesAccessible() {
+        return this.yesAccessible;
+    }
+
+    public void setYesAccessible(Integer yesAccessible) {
+        this.yesAccessible = yesAccessible;
+    }
+
+    public Integer getNoAccessible() {
+        return this.noAccessible;
+    }
+
+    public void setNoAccessible(Integer noAccessible) {
+        this.noAccessible = noAccessible;
     }
 
     public void updateTagCount(String tag, int count) {
-        tagStore.updateTagCount(tag, count);
+        tags.updateTagCount(tag, count);
     }
 
     public void addImage(Image image) {

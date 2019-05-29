@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -22,43 +23,75 @@ public class StopController {
     private StopRepository repo;
 
     @CrossOrigin
-    @PutMapping("/{id}/tags")
-    public ResponseEntity<?> incrementTag(@PathVariable String id, @RequestBody DtoTags tagCounts) {
+    @PutMapping("/{id}")
+    public ResponseEntity<?> incrementTag(@PathVariable String id, @RequestBody Stop info) {
         Stop stop = verifyStop(repo.findById(id), id);
         if (stop == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                                 .body(String.format("Stop with id %s not found", id));
+                    .body(String.format("Stop with id %s not found", id));
         }
 
-        for (String tag : tagCounts.getTags().keySet()) {
-            try {
-                int count = tagCounts.getTags().get(tag);
-                stop.updateTagCount(tag, count);
-            } catch (IllegalArgumentException e) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                                     .body(String.format("Tag %s not found", tag));
+        if (info.getId() == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("Stop id not provided");
+        }
+        if (!id.equals(info.getId())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(String.format("Provided id %s does not match stop id %s", id, info.getId()));
+        }
+
+        // name and direction should not be changed
+        if (info.getName() != null && !stop.getName().equals(info.getName())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(String.format("Provided name %s does not match stop name %s", stop.getName(), info.getName()));
+        }
+        if (info.getDirection() != null && !stop.getDirection().equals(info.getDirection())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(String.format("Provided direction %s does not match direction name %s", stop.getDirection(), info.getDirection()));
+        }
+
+        if (info.getImages() != null) {
+            stop.setImages(info.getImages());
+        }
+        if (info.getTags() != null) {
+            TagStore tags = new TagStore();
+            Map<String, Integer> infoTags = info.getTags().getTagStore();
+            for (String tag : infoTags.keySet()) {
+                int count = infoTags.get(tag);
+                if (count < 0) {
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                            .body(String.format("Count for tag %s cannot be below 0 (was %d)", tag, count));
+                }
+                try {
+                    tags.updateTagCount(tag, count);
+                } catch (IllegalArgumentException e) {
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                            .body(String.format("Invalid tag %s supplied", tag));
+                }
             }
+            stop.setTags(tags);
+        }
+
+        if (info.getYesAccessible() != null) {
+            int count = info.getYesAccessible();
+            if (count < 0) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body(String.format("Count for yesAccessible cannot be below 0 (was %d)", count));
+            }
+            stop.setYesAccessible(count);
+        }
+        if (info.getNoAccessible() != null) {
+            int count = info.getNoAccessible();
+            if (count < 0) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body(String.format("Count for noAccessible cannot be below 0 (was %d)", count));
+            }
+            stop.setNoAccessible(count);
         }
 
         repo.save(stop);
         return ResponseEntity.status(HttpStatus.OK)
-                             .body(stop);
-    }
-
-    @CrossOrigin
-    @PutMapping("/{id}/image")
-    public ResponseEntity<?> addImage(@PathVariable String id, @RequestBody DtoImage imageInfo) {
-        Stop stop = verifyStop(repo.findById(id), id);
-        if (stop == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                                 .body(String.format("Stop with id %s not found", id));
-        }
-
-        Image image = new Image(imageInfo);
-        stop.addImage(image);
-        repo.save(stop);
-        return ResponseEntity.status(HttpStatus.OK)
-                             .body(stop);
+                .body(stop);
     }
 
     @CrossOrigin
@@ -72,10 +105,11 @@ public class StopController {
             } else {
                 res = "Stop number " + id + " was not found.";
             }
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(res);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(res);
         }
         return ResponseEntity.status(HttpStatus.OK)
-                             .body(stop);
+                .body(stop);
     }
 
     private Stop verifyStop(Optional<Stop> stopResult, String id) {

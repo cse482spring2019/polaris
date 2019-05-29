@@ -29,14 +29,7 @@ function setup(data) {
     );
 
     /* reformat the data for use later */
-    stop.data = [];
-    Object.keys(stop.tags.tagStore).forEach(function(tag) {
-        stop.data.push({
-            'name': tag,
-            'count': stop.tags.tagStore[tag]
-        });
-    });
-    stop.data.sort(function(a, b) { return b.count - a.count; });
+    stop.tags.sort(function(a, b) { return b.count - a.count; });
     stop.images.sort(function(a, b) {
         let d1 = Date.parse(a.dateUploaded);
         let d2 = Date.parse(b.dateUploaded);
@@ -50,7 +43,7 @@ function setup(data) {
     files = [];
 
     /* Puts the initial tags on the page */
-    for (let i = 0; i < stop.data.length; i++) {
+    for (let i = 0; i < stop.tags.length; i++) {
         $('.tag-container').append(getTag(i));
     }
 
@@ -70,13 +63,13 @@ function setup(data) {
         $('#save-button').text('Save');
         let i = $(this).attr('id').charAt(4);
         if (!$(this).attr('class').includes('tag-selected')) {
-            stop.data[i].count = stop.data[i].count + 1;
+            stop.tags[i].count = stop.tags[i].count + 1;
             $(this).attr('class', 'tag tag-selected');
-            $(this).html(format(stop.data[i].name, stop.data[i].count));
+            $(this).html(format(stop.tags[i].label, stop.tags[i].count));
         } else {
-            stop.data[i].count = stop.data[i].count - 1;
+            stop.tags[i].count = stop.tags[i].count - 1;
             $(this).attr('class', getClass(i));
-            $(this).html(format(stop.data[i].name, stop.data[i].count));
+            $(this).html(format(stop.tags[i].label, stop.tags[i].count));
         }
     });
 
@@ -232,7 +225,7 @@ function format(name, count) {
  * Returns the class of the tag with the given index based on counts
  */
 function getClass(i) {
-    return (stop.data[i].count == 0) ? 'tag' : 'tag tag-default';
+    return (stop.tags[i].count == 0) ? 'tag' : 'tag tag-default';
 }
 
 /*
@@ -260,7 +253,7 @@ function getQueryParam(name) {
 function getTag(i) {
     return (
         '<button type="button" id="btn-' + i + '" class="' + getClass(i) + '">' +
-        format(stop.data[i].name, stop.data[i].count) +
+            format(stop.tags[i].label, stop.tags[i].count) +
         '</button>'
     );
 }
@@ -285,11 +278,6 @@ function getCard(image) {
  * error functions to be called accordingly
  */
 function put(stop, success, error) {
-    /* update the tag counts in the stop object */
-    for (let i = 0; i < stop.data.length; i++) {
-        stop.tags.tagStore[stop.data[i].name] = stop.data[i].count;
-    }
-
     $.ajax({
         type: 'PUT',
         url: 'http://localhost:8080/stops/' + stop.id,
@@ -303,32 +291,6 @@ function put(stop, success, error) {
 
 /* make a GET request and then load the page */
 $(document).ready(function() {
-    /*
-    let data = {
-        "id":"1_1000",
-        "name":"Pine St & 9th Ave",
-        "direction":"NE",
-        "yes":21,
-        "no":7,
-        "images":[],
-        "tags":{
-            "tagStore":{
-                "Overgrowing Foliage":0,
-                "Construction Nearby":0,
-                "Tight Spaces":0,
-                "Lack of Elevator":0,
-                "Sharp Inclines":0,
-                "Insufficient Light":0,
-                "Low-Quality Sidewalk":0,
-                "Broken Benches":0
-            }
-        }
-    };
-
-    $('#loading').hide();
-    setup(data);
-    */
-
     $.ajax({
         type: 'GET',
         url: 'http://localhost:8080/stops/' + getQueryParam('id'),

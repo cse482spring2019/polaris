@@ -11,7 +11,17 @@
 
     <body>
         <div class="row">
-            <div class="title"><h2></h2><p></p></div>
+            <div class="title">
+                <h2></h2>
+                <p></p>
+                <a href="#img-row"><i>view images</i></a>
+            </div>
+        </div>
+        <div class="row center">
+            <h3>Is this stop accessible to you?</h3>
+            <p id="access-text"></p>
+            <button id="yes" class="green">Yes</button>
+            <button id="no" class="red">No</button>
         </div>
         <div id="tag-row" class="row center">
             <h3>What have users said about this stop?</h3>
@@ -48,8 +58,8 @@
                     <textarea></textarea>
                 </div>
                 <div class="modal-buttons">
-                    <button type="button" id="cancel">Cancel</button>
-                    <button type="button" id="ok" disabled 
+                    <button type="button" id="cancel" class="red">Cancel</button>
+                    <button type="button" id="ok" class="green" disabled 
                                           title='please select an image before uploading'>Upload</button>
                 </div>
             </div>

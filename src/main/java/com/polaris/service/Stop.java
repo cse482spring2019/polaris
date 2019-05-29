@@ -24,6 +24,8 @@ public class Stop {
         this.direction = direction;
         this.images = new LinkedList<>();
         this.tags = new TagStore();
+        this.yesAccessible = 0;
+        this.noAccessible = 0;
     }
 
     public void setId(String id) {

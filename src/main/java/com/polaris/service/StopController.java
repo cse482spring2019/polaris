@@ -46,6 +46,36 @@ public class StopController {
     }
 
     @CrossOrigin
+    @PutMapping("/{id}/yes/{count}")
+    public ResponseEntity<?> updateYesRating(@PathVariable String id, @PathVariable int count) {
+        Stop stop = verifyStop(repo.findById(id), id);
+        if (stop == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                                 .body(String.format("Stop with id %s not found", id));
+        }
+
+        stop.setYesAccessible(count);
+        repo.save(stop);
+        return ResponseEntity.status(HttpStatus.OK)
+                             .body(stop);
+    }
+
+    @CrossOrigin
+    @PutMapping("/{id}/no/{count}")
+    public ResponseEntity<?> updateNoating(@PathVariable String id, @PathVariable int count) {
+        Stop stop = verifyStop(repo.findById(id), id);
+        if (stop == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                                 .body(String.format("Stop with id %s not found", id));
+        }
+
+        stop.setNoAccessible(count);
+        repo.save(stop);
+        return ResponseEntity.status(HttpStatus.OK)
+                             .body(stop);
+    }
+
+    @CrossOrigin
     @PutMapping("/{id}/image")
     public ResponseEntity<?> addImage(@PathVariable String id, @RequestBody DtoImage imageInfo) {
         Stop stop = verifyStop(repo.findById(id), id);

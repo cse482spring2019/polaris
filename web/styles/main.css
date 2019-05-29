@@ -6,6 +6,10 @@ body {
     font-family: Arial;
 }
 
+p {
+	font-size: 16px;
+}
+
 #loading {
     position: fixed; /* Stay in place */
     left: 0;
@@ -55,7 +59,6 @@ body {
 
 .title p {
     margin: 0;
-    font-size: 16px;
 }
 
 .title a {
@@ -75,7 +78,7 @@ body {
 }
 
 .tag-container {
-    width: 50%;
+    width: 60%;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -147,8 +150,17 @@ button {
     font-weight: bold;
 }
 
+#img-row p {
+    margin-bottom: 0;
+}
+
+#upload-button {
+    margin-top: 20px;
+	 margin-bottom: 20px;
+}
+
 .tag {
-    width: 220px;
+    width: 250px;
 }
 
 .tag-default {

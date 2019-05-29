@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
-import java.util.Map;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -24,7 +24,7 @@ public class StopController {
 
     @CrossOrigin
     @PutMapping("/{id}")
-    public ResponseEntity<?> incrementTag(@PathVariable String id, @RequestBody Stop info) {
+    public ResponseEntity<?> updateStop(@PathVariable String id, @RequestBody Stop info) {
         Stop stop = verifyStop(repo.findById(id), id);
         if (stop == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -37,39 +37,38 @@ public class StopController {
         }
         if (!id.equals(info.getId())) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(String.format("Provided id %s does not match stop id %s", id, info.getId()));
+                    .body(String.format("Provided id %s does not match stop id %s", info.getId(), id));
         }
 
         // name and direction should not be changed
         if (info.getName() != null && !stop.getName().equals(info.getName())) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(String.format("Provided name %s does not match stop name %s", stop.getName(), info.getName()));
+                    .body(String.format("Provided name %s does not match stop name %s", info.getName(), stop.getName()));
         }
         if (info.getDirection() != null && !stop.getDirection().equals(info.getDirection())) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(String.format("Provided direction %s does not match direction name %s", stop.getDirection(), info.getDirection()));
+                    .body(String.format("Provided direction %s does not match direction name %s", info.getDirection(), stop.getDirection()));
         }
 
         if (info.getImages() != null) {
             stop.setImages(info.getImages());
         }
         if (info.getTags() != null) {
-            TagStore tags = new TagStore();
-            Map<String, Integer> infoTags = info.getTags().getTagStore();
-            for (String tag : infoTags.keySet()) {
-                int count = infoTags.get(tag);
+            List<Tag> infoTags = info.getTags();
+            for (Tag tag : infoTags) {
+                String label = tag.getLabel();
+                int count = tag.getCount();
                 if (count < 0) {
                     return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                             .body(String.format("Count for tag %s cannot be below 0 (was %d)", tag, count));
                 }
                 try {
-                    tags.updateTagCount(tag, count);
+                    stop.updateTagCount(label, count);
                 } catch (IllegalArgumentException e) {
                     return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                             .body(String.format("Invalid tag %s supplied", tag));
                 }
             }
-            stop.setTags(tags);
         }
 
         if (info.getYesAccessible() != null) {

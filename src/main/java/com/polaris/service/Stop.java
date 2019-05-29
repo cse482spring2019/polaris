@@ -2,6 +2,7 @@ package com.polaris.service;
 
 import org.springframework.data.annotation.Id;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -12,9 +13,20 @@ public class Stop {
     private String name;
     private String direction;
     private List<Image> images;
-    private TagStore tags;
+    private List<Tag> tags;
     private Integer yesAccessible;
     private Integer noAccessible;
+
+    private final String[] TAG_LABELS = new String[]{
+            "Tight Spaces",
+            "Sharp Inclines",
+            "Construction Nearby",
+            "Low-Quality Sidewalk",
+            "Overgrowing Foliage",
+            "Lack of Elevator",
+            "Broken Benches",
+            "Insufficient Light"
+    };
 
     public Stop () {}
 
@@ -23,9 +35,17 @@ public class Stop {
         this.name = name;
         this.direction = direction;
         this.images = new LinkedList<>();
-        this.tags = new TagStore();
+        this.tags = initializeTags();
         this.yesAccessible = 0;
         this.noAccessible = 0;
+    }
+
+    private List<Tag> initializeTags() {
+        List<Tag> tags = new ArrayList<>(TAG_LABELS.length);
+        for (String label : TAG_LABELS) {
+            tags.add(new Tag(label));
+        }
+        return tags;
     }
 
     public void setId(String id) {
@@ -52,11 +72,11 @@ public class Stop {
         this.images = images;
     }
 
-    public TagStore getTags() {
+    public List<Tag> getTags() {
         return this.tags;
     }
 
-    public void setTags(TagStore tags) {
+    public void setTags(List<Tag> tags) {
         this.tags = tags;
     }
 
@@ -76,8 +96,14 @@ public class Stop {
         this.noAccessible = noAccessible;
     }
 
-    public void updateTagCount(String tag, int count) {
-        tags.updateTagCount(tag, count);
+    public void updateTagCount(String label, int count) {
+        for (Tag tag : tags) {
+            if (tag.getLabel().equals(label)) {
+                tag.setCount(count);
+                return;
+            }
+        }
+        throw new IllegalArgumentException(String.format("Tag %s not found", label));
     }
 
     public void addImage(Image image) {
@@ -86,6 +112,7 @@ public class Stop {
 
     @Override
     public String toString() {
-        return "Stop{" + id + "}";
+        return "Stop{" + id + "," + name + "," + direction + "}"
+                + images + tags + "{" + yesAccessible + "," + noAccessible + "}";
     }
 }

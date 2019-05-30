@@ -1,3 +1,31 @@
+.tag {
+    margin: 5px;
+}
+
+.tag-container {
+    background-color: #f2f2f2;
+}
+/* #header {
+    margin-bottom: 0px;
+}
+.container-fluid {
+    background-color:  #f2f2f2;
+}
+
+.btn-outline-success {
+    background-color: white;
+}
+
+.btn {
+    margin: 3px;
+}
+
+.tags-container {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 10px;
+}
+
 h1 {
     font-size: 6em;
 }
@@ -117,9 +145,7 @@ p {
 }
 
 .save {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 3%;
+    margin-top: 1%;
 }
 
 .empty {
@@ -159,19 +185,9 @@ button {
 	 margin-bottom: 20px;
 }
 
-.tag {
-    width: 250px;
-}
-
 .tag-default {
     background-color: #f2f9eb;
     color: #206030;
-    border-color: #206030;
-}
-
-.tag-selected {
-    background-color: #206030;
-    color: #f2f9eb;
     border-color: #206030;
 }
 
@@ -346,4 +362,4 @@ button:disabled {
   100% {
     transform: rotate(360deg);
   }
-}
+} */

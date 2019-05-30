@@ -17,9 +17,9 @@ const BLOB_STORE = AzureStorage.Blob.createBlobServiceWithSas(URI, SAS);
 /* sets everything up once we have the stop data */
 function setup(data) {
     stop = data;
-    $('title').html(stop.name);
+    $('#title').text(stop.name + '    |    Stop # ' + stop.id.substring(2) + ' - ' + stop.direction + ' bound');
     $('.title h2').html(stop.name);
-    $('.title p').html(
+    $('#route').text(
         'Stop # ' + stop.id.substring(2) + ' - ' + stop.direction + ' bound'
     );
     $('#score h1').html(stop.score);
@@ -52,7 +52,10 @@ function setup(data) {
 
     /* Puts the initial tags on the page */
     for (let i = 0; i < stop.data.length; i++) {
-        $('.tag-container').append(getTag(i));
+        if (i == 4) {
+            $('.tag-container-test').append('<div class="w-100"></div>');
+        }
+        $('.tag-container-test').append(getTag(i));
     }
 
     /* Puts the initial images on the page */
@@ -72,7 +75,7 @@ function setup(data) {
         let i = $(this).attr('id').charAt(4);
         if (!$(this).attr('class').includes('tag-selected')) {
             added[i] = 1;
-            $(this).attr('class', 'tag tag-selected');
+            $(this).attr('class', 'col btn btn-outline-success tag tag-selected');
             $(this).html(format(stop.data[i].name, stop.data[i].count + 1));
         } else {
             added[i] = 0;
@@ -223,11 +226,17 @@ function format(name, count) {
     return name + ' (' + count + ')';
 }
 
+// MDB Lightbox Init
+$(function () {
+    $("#mdb-lightbox-ui").load("mdb-addons/mdb-lightbox-ui.html");
+    });
+
 /*
  * Returns the class of the tag with the given index based on counts
  */
 function getClass(i) {
-    return (stop.data[i].count + added[i]) == 0 ? 'tag' : 'tag tag-default';
+    let res = 'col btn btn-outline-success';
+    return (stop.data[i].count + added[i]) == 0 ? res + ' tag' : res + ' tag tag-default';
 }
 
 /*
@@ -254,9 +263,8 @@ function getQueryParam(name) {
 /* Returns the tag HTML for the given index in the data */
 function getTag(i) {
     return (
-        '<button type="button" id="btn-' + i + '" class="' + getClass(i) + '">' +
-        format(stop.data[i].name, stop.data[i].count) +
-        '</button>'
+        '<a id="btn-' + i + '" class="' + getClass(i) + 
+        '" href="#">' + format(stop.data[i].name, stop.data[i].count) + '</a>'
     );
 }
 

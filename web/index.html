@@ -1,69 +1,120 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title></title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Polaris</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link rel="stylesheet" href="styles/main.css">
 
-        <script type="text/javascript" src="scripts/jquery-3.4.1.min.js"></script>
         <script type="text/javascript" src="scripts/azure-storage.blob.min.js" charset="utf-8"></script>
         <script type="text/javascript" src="scripts/main.js"></script>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
 
-    <body>
-        <div class="row">
-            <div class="title">
-                <h2></h2>
-                <p></p>
-                <a href="#img-row"><i>view images</i></a>
+    <body>   
+        <div class="d-flex flex-tag flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+            <h5 class="my-0 mr-md-auto font-weight-normal">Route Number</h5>
+            <h5 class="my-0 mr-md-auto font-weight-normal">Stop Name</h5>
+            <a class="btn btn-outline-success" href="#">Write a Review </a>
+        </div>
+
+        <div class="container-fluid">
+            <div class="container">
+                What have riders been saying about this stop?
+            </div>
+
+            <div class="container">
+                <div class="row text-center">
+                    <button class="tag col btn btn-outline-success">This is a tag</button>
+                    <button class="tag col btn btn-outline-success">This is a tag</button>
+                    <button class="tag col btn btn-outline-success">This is a tag</button>
+                    <button class="tag col btn btn-outline-success">This is a tag</button>
+                    <div class="w-100"></div>
+                    <button class="tag col btn btn-outline-success">This is a tag</button>
+                    <button class="tag col btn btn-outline-success">This is a tag</button>
+                    <button class="tag col btn btn-outline-success">This is a tag</button>
+                    <button class="tag col btn btn-outline-success">This is a tag</button>
+                </div>
             </div>
         </div>
-        <div class="row center">
-            <h3>Is this stop accessible to you?</h3>
-            <p id="access-text"></p>
-            <button id="yes" class="green">Yes</button>
-            <button id="no" class="red">No</button>
-        </div>
-        <div id="tag-row" class="row center">
-            <h3>What have users said about this stop?</h3>
-            <p><i>select and save the tags below to share your thoughts</i></p>
-            <div class="container tag-container"></div>
-            <button id="save-button" type="button">Save</button>
-        </div>
-        <div id="img-row" class="row center">
-            <h3>What does the stop look like?</h3>
-            <p><i>view and share images of this bus stop</i></p>
-            <button id="upload-button" type="button">Select Image to Upload</button>
-            <div class="container image-container"></div>
-        </div>
-        <div id="loading"><div class="lds-dual-ring"></div></div>
 
-        <!-- modal for viewing images -->
-        <div id="img-modal" class="modal">
-            <span class="close">&times</span>
-            <img>
-        </div>
+        <div class="container">
 
-        <!-- modal for uploading images -->
-        <div id="upload-modal" class="modal">
-            <span class="close">&times</span>
-            <div id="image-form">
-                <div class="form-section">
-                    <p>Please select an image</p>
-                    <div class="input-wrapper">
-                        <input id="images" type="file" accept=".jpg, .jpeg, .png, .bmp">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card mb-4 shadow-sm">
+                            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+                            <div class="card-body">
+                            <p class="card-text">Test</p>
+                        </div>
                     </div>
+                  </div>
+                  
+                  <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm">
+                      <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+                      <div class="card-body">
+                        <p class="card-text">Test.</p>
+                      </div>
+                    </div>
+                  </div>
+          
+                  <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm">
+                      <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+                      <div class="card-body">
+                        <p class="card-text">Test</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm">
+                      <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+                      <div class="card-body">
+                        <p class="card-text">Test</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm">
+                      <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+                      <div class="card-body">
+                        <p class="card-text">Test</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4">
+                        <div class="card mb-4 shadow-sm">
+                          <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+                          <div class="card-body">
+                            <p class="card-text">Test</p>
+                          </div>
+                        </div>
+                      </div>
+          
+                 
+                      <div class="col-md-4">
+                            <div class="card mb-4 shadow-sm">
+                              <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+                              <div class="card-body">
+                                <p class="card-text">Test</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-md-4">
+                                <div class="card mb-4 shadow-sm">
+                                  <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+                                  <div class="card-body">
+                                    <p class="card-text">Test</p>
+                                  </div>
+                                </div>
+                              </div>
                 </div>
-                <div class="form-section">
-                    <p>Please provide a one sentence description</p>
-                    <textarea></textarea>
-                </div>
-                <div class="modal-buttons">
-                    <button type="button" id="cancel" class="red">Cancel</button>
-                    <button type="button" id="ok" class="green" disabled 
-                                          title='please select an image before uploading'>Upload</button>
-                </div>
-            </div>
-        </div>
+              </div>
+
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     </body>
 </html>

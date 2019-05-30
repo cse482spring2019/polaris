@@ -12,11 +12,12 @@ const URI = 'https://' + ACC_NAME + '.blob.core.windows.net';
 const SAS = '?sv=2018-03-28&ss=b&srt=sco&sp=rwdlac&se=2019-06-29T03:' +
             '16:47Z&st=2019-05-28T19:16:47Z&spr=https&sig=7fmidcPpGw' + 
             'wNu2CPqV%2B10d9jketDmm7p08BgVYiuMhc%3D';
-const BLOB_STORE = AzureStorage.Blob.createBlobServiceWithSas(URI, SAS);
+// const BLOB_STORE = AzureStorage.Blob.createBlobServiceWithSas(URI, SAS);
 
 /* sets everything up once we have the stop data */
 function setup(data) {
     stop = data;
+    console.log("Gets here");
     $('#title').text(stop.name + '    |    Stop # ' + stop.id.substring(2) + ' - ' + stop.direction + ' bound');
     $('.title h2').html(stop.name);
     $('#route').text(
@@ -200,11 +201,6 @@ function setup(data) {
             });
     });
 
-    $('#img-modal').click(function() {
-        resetModal();
-        $('.modal').hide();
-    });
-
     /* Locally save uploaded files and enable the 'Ok' button */
     $('input[type="file"]').change(function(e) {
         files = e.target.files;
@@ -225,11 +221,6 @@ function setup(data) {
 function format(name, count) {
     return name + ' (' + count + ')';
 }
-
-// MDB Lightbox Init
-$(function () {
-    $("#mdb-lightbox-ui").load("mdb-addons/mdb-lightbox-ui.html");
-    });
 
 /*
  * Returns the class of the tag with the given index based on counts

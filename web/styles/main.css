@@ -9,38 +9,6 @@
 #image-container {
     padding-top: 1rem !important;
 }
-/* #header {
-    margin-bottom: 0px;
-}
-.container-fluid {
-    background-color:  #f2f2f2;
-}
-
-.btn-outline-success {
-    background-color: white;
-}
-
-.btn {
-    margin: 3px;
-}
-
-.tags-container {
-    padding-top: 10px;
-    padding-bottom: 10px;
-    border-radius: 10px;
-}
-
-h1 {
-    font-size: 6em;
-}
-
-body {
-    font-family: Arial;
-}
-
-p {
-	font-size: 16px;
-}
 
 #loading {
     position: fixed; /* Stay in place */
@@ -184,11 +152,6 @@ button {
     margin-bottom: 0;
 }
 
-#upload-button {
-    margin-top: 20px;
-	 margin-bottom: 20px;
-}
-
 .tag-default {
     background-color: #f2f9eb;
     color: #206030;
@@ -236,22 +199,7 @@ textarea {
 
 button:disabled {
     opacity: 0.7;
-}
-
-/* The Modal (background) */
-.modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    padding-top: 100px; /* Location of the box */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.7); /* Black w/ opacity */
-}
+}   
 
 /* Modal Content (Image) */
 #img-modal img{ 
@@ -366,4 +314,4 @@ button:disabled {
   100% {
     transform: rotate(360deg);
   }
-} */
+}

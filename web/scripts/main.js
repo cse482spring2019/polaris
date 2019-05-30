@@ -52,6 +52,13 @@ function setup(data) {
         $('#tags').append(getTag(i));
     }
 
+    for (let i = 0; i < stop.data.length; i++) {
+        if (i == 4) {
+            $('#modal-tags').append('<div class="w-100"></div>');
+        }
+        $('#modal-tags').append(getTag(i));
+    }
+
     /* Puts the initial images on the page */
     if (stop.images.length == 0) {
         $('.image-container').append(
@@ -107,11 +114,11 @@ function setup(data) {
 
     });
 
-    /* Zoom in when an image is clicked */
-    $('.card').click(function() {
-        $('#img-modal').show();
-        $('#img-modal img').attr('src', $(this).find('img').attr('src'));
-    });
+    // /* Zoom in when an image is clicked */
+    // $('.card').click(function() {
+    //     $('#img-modal').show();
+    //     $('#img-modal img').attr('src', $(this).find('img').attr('src'));
+    // });
 
     /* Close the modal */
     $('.close').click(function() {
@@ -140,10 +147,10 @@ function setup(data) {
     });
 
     /* Close the modal when 'Cancel' is clicked */
-    $('#cancel').click(function() {
-        resetModal();
-        $('.modal').hide();
-    });
+    // $('#cancel').click(function() {
+    //     resetModal();
+    //     $('.modal').hide();
+    // });
 
     /* Upload images to server and update the page */
     $('#ok').click(function() {

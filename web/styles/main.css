@@ -5,6 +5,10 @@
 .tag-container {
     background-color: #f2f2f2;
 }
+
+#image-container {
+    padding-top: 1rem !important;
+}
 /* #header {
     margin-bottom: 0px;
 }

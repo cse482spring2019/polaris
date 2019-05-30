@@ -7,6 +7,7 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link rel="stylesheet" href="styles/main.css">
 
+        <script type="text/javascript" src="scripts/jquery-3.4.1.min.js"></script>
         <script type="text/javascript" src="scripts/azure-storage.blob.min.js" charset="utf-8"></script>
         <script type="text/javascript" src="scripts/main.js"></script>
     </head>
@@ -15,7 +16,7 @@
         <div class="d-flex flex-tag flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
             <!--- Add Text Muted -->
             <h5 id="title" class="my-0 mr-md-auto font-weight-normal">Stop Name and Route Number</h5>
-            <a class="btn btn-outline-success ml-2" href="#">Write a Review </a>
+            <a class="btn btn-outline-success ml-2" href="#">Add Information</a>
         </div>
 
         <div class="container-fluid">
@@ -29,17 +30,8 @@
                     </div>
 
                     <div class="container">
-                        <div class="row text-center">
-                            <button class="tag col btn btn-outline-success">This is a tag</button>
-                            <button class="tag col btn btn-outline-success">This is a tag</button>
-                            <button class="tag col btn btn-outline-success">This is a tag</button>
-                            <button class="tag col btn btn-outline-success">This is a tag</button>
-                            <div class="w-100"></div>
-                            <button class="tag col btn btn-outline-success">This is a tag</button>
-                            <button class="tag col btn btn-outline-success">This is a tag</button>
-                            <button class="tag col btn btn-outline-success">This is a tag</button>
-                            <button class="tag col btn btn-outline-success">This is a tag</button>
-                        </div>
+                        <!-- Tags will be appended here -->
+                        <div id="tags" class="row text-center"></div>
                     </div>
                 </div>
             </div>

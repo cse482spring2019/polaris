@@ -12,19 +12,12 @@ const URI = 'https://' + ACC_NAME + '.blob.core.windows.net';
 const SAS = '?sv=2018-03-28&ss=b&srt=sco&sp=rwdlac&se=2019-06-29T03:' +
             '16:47Z&st=2019-05-28T19:16:47Z&spr=https&sig=7fmidcPpGw' + 
             'wNu2CPqV%2B10d9jketDmm7p08BgVYiuMhc%3D';
-// const BLOB_STORE = AzureStorage.Blob.createBlobServiceWithSas(URI, SAS);
+const BLOB_STORE = AzureStorage.Blob.createBlobServiceWithSas(URI, SAS);
 
 /* sets everything up once we have the stop data */
 function setup(data) {
     stop = data;
-    console.log("Gets here");
     $('#title').text(stop.name + '    |    Stop # ' + stop.id.substring(2) + ' - ' + stop.direction + ' bound');
-    $('.title h2').html(stop.name);
-    $('#route').text(
-        'Stop # ' + stop.id.substring(2) + ' - ' + stop.direction + ' bound'
-    );
-    $('#score h1').html(stop.score);
-    $('#score p').html('(' + stop.ratings + ' ratings)');
     $('#access-text').html(
         '<i>accessible to ' + stop.yes + ' users, inaccessible to ' + stop.no + ' users</i>'
     );
@@ -54,9 +47,9 @@ function setup(data) {
     /* Puts the initial tags on the page */
     for (let i = 0; i < stop.data.length; i++) {
         if (i == 4) {
-            $('.tag-container-test').append('<div class="w-100"></div>');
+            $('#tags').append('<div class="w-100"></div>');
         }
-        $('.tag-container-test').append(getTag(i));
+        $('#tags').append(getTag(i));
     }
 
     /* Puts the initial images on the page */
@@ -227,7 +220,7 @@ function format(name, count) {
  */
 function getClass(i) {
     let res = 'col btn btn-outline-success';
-    return (stop.data[i].count + added[i]) == 0 ? res + ' tag' : res + ' tag tag-default';
+    return (stop.data[i].count + added[i]) == 0 ? 'tag ' + res : 'tag tag-default ' + res;
 }
 
 /*
@@ -254,8 +247,8 @@ function getQueryParam(name) {
 /* Returns the tag HTML for the given index in the data */
 function getTag(i) {
     return (
-        '<a id="btn-' + i + '" class="' + getClass(i) + 
-        '" href="#">' + format(stop.data[i].name, stop.data[i].count) + '</a>'
+        '<button id="btn-' + i + '"class="' + getClass(i) +
+        '"href="#">' + format(stop.data[i].name, stop.data[i].count) + '</button>'
     );
 }
 
@@ -299,24 +292,4 @@ $(document).ready(function() {
 
     $('#loading').hide();
     setup(data);
-
-    /*
-    $.ajax({
-        type: 'GET',
-        url: 'http://localhost:8080/stops/' + getQueryParam('id'),
-        contentType: 'text/json',
-        success: function (data) {
-            $('#loading').hide();
-            console.log(JSON.stringify(data));
-            setup(data);
-        },
-        error: function (err) {
-            $('.lds-dual-ring').remove();
-            $('#loading').append(
-                '<div class="error">A ' + err.status + ' error occurred. ' + err.responseText + '</div>'
-            );
-            console.log(err);
-        }
-    });
-    */
 });

@@ -8,11 +8,10 @@ const DEFAULT_ALT = "a picture of a bus stop";  /* default alt text */
 const ACC_NAME = 'polarisImages'
 const CONTAINER = 'images';
 const URI = 'https://' + ACC_NAME + '.blob.core.windows.net';
-const SAS = '?sv=2018-03-28&ss=b&srt=sco&sp=rwdlac&se=2019-06-29T03:' +
-            '16:47Z&st=2019-05-28T19:16:47Z&spr=https&sig=7fmidcPpGw' + 
-            'wNu2CPqV%2B10d9jketDmm7p08BgVYiuMhc%3D';
+const SAS = '?sv=2018-03-28&ss=b&srt=sco&sp=rwdlac&se=2019-07-07T09:14:24Z&st=2019-06-02T01:14:24Z&spr=https,http&sig=1igslCpL6xJxEixCaSQIg1CnLBvwy3migpf1p2jTpk8%3D';
 const BLOB_STORE = AzureStorage.Blob.createBlobServiceWithSas(URI, SAS);
 const WEB_SERVICE = 'http://localhost:8080/stops/';
+//const WEB_SERVICE = 'http://104.42.155.234:8080/stops/';
 
 /* sets everything up once we have the stop data */
 function setup(data) {
@@ -77,6 +76,7 @@ function setup(data) {
         clicked.attr('disabled', true);
         clicked.html('Saving...');
 
+        /*
         setTimeout(function() {
                 clicked.text('Saved!');
                 setTimeout(function() {
@@ -85,8 +85,8 @@ function setup(data) {
                 }, 1500);
             }, 1000
         );
-
-        /*
+            */
+        
         put(stop,
             function(res) {
                 clicked.text('Saved!');
@@ -99,7 +99,7 @@ function setup(data) {
                 console.log(err);
             }
         );
-        */
+        
     });
 
     /* Opens the modal to upload an image */
@@ -138,7 +138,7 @@ function setup(data) {
         $('#yes').attr('disabled', true);
         $('#no').attr('disabled', true);
         clicked.html('Saving...');
-
+/*
         setTimeout(function() {
                 clicked.text('Saved!');
                 setTimeout(function() {
@@ -153,21 +153,26 @@ function setup(data) {
                 }, 1500);
             }, 1000
         );
-
-        /*
+*/
+        
         put(stop,
             function(res) {
                 clicked.text('Saved!');
                 setTimeout(function() {
                     clicked.html(oldHtml);
-                    clicked.attr('disabled', false);
+                    $('#yes').attr('disabled', false);
+                    $('#no').attr('disabled', false);
+                    $('#access-text').html(
+                        'This stop is accessible to ' + stop.yesAccessible + ' of ' +
+                            (stop.yesAccessible + stop.noAccessible) + ' users'
+                    );
                 }, 1500);
             },
             function(err) {
                 console.log(err);
             }
         );
-        */
+        
         return res;
     }
 
@@ -347,10 +352,12 @@ function put(stop, success, error) {
         success: success,
         error: error
     });
+    console.log(stop)
 }
 
 /* make a GET request and then load the page */
 $(document).ready(function() {
+    /*
     let data = {
         "id": "98_755003",
         "name": "UW Link Station / UW Link Station",
@@ -395,8 +402,8 @@ $(document).ready(function() {
     }
     $('#loading').hide();
     setup(data);
-
-    /*
+    */
+    
     $.ajax({
         type: 'GET',
         url: WEB_SERVICE + getQueryParam('id'),
@@ -414,5 +421,5 @@ $(document).ready(function() {
             console.log(err);
         }
     });
-    */
+    
 });

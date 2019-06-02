@@ -18,6 +18,7 @@ import java.util.Optional;
 public class StopController {
 
     public static final String ONE_BUS_AWAY_STOP_API_URL = "http://api.pugetsound.onebusaway.org/api/where/stop/";
+    public static final String ONE_BUS_AWAY_API_KEY = "572b4576-1384-4b7f-8644-044f868780f8";
 
     @Autowired
     private StopRepository repo;
@@ -117,8 +118,7 @@ public class StopController {
         }
 
         RestTemplate rest = new RestTemplate();
-        // String obaUrl = ONE_BUS_AWAY_STOP_API_URL + id + ".json"?key=TODO;
-        String obaUrl = ONE_BUS_AWAY_STOP_API_URL + id + ".json?key=TEST";
+        String obaUrl = ONE_BUS_AWAY_STOP_API_URL + id + ".json?key=" + ONE_BUS_AWAY_API_KEY;
         ResponseEntity<String> response = rest.getForEntity(obaUrl, String.class);
         if (!response.hasBody()) {
             return null;

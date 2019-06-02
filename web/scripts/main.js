@@ -20,13 +20,13 @@ function setup(data) {
     $('title').html(stop.name);
     $('.title h2').html(stop.name);
     $('.title p').html(
-        'Stop # ' + stop.id.substring(2) + ' - ' + stop.direction + ' bound'
+        'Stop # ' + stop.id.substring(stop.id.indexOf('_') + 1) + ' - ' + stop.direction + ' bound'
     );
     $('#score h1').html(stop.score);
     $('#score p').html('(' + stop.ratings + ' ratings)');
     $('#access-text').html(
-        '<i>accessible to ' + stop.yesAccessible + ' users, inaccessible to ' 
-                            + stop.noAccessible + ' users</i>'
+        'This stop is accessible to ' + stop.yesAccessible + ' of ' +
+            (stop.yesAccessible + stop.noAccessible) + ' users'
     );
 
     /* reformat the data for use later */
@@ -61,31 +61,45 @@ function setup(data) {
 
     /* Behavior for clicking on a tag */
     $(".tag").click(function() {
-        $('#save-button').text('Save');
-        let i = $(this).attr('id').charAt(4);
-        if (!$(this).attr('class').includes('tag-selected')) {
+        let clicked = $(this);
+        let i = clicked.attr('id').charAt(4);
+        if (!clicked.attr('class').includes('tag-selected')) {
             stop.tags[i].count = stop.tags[i].count + 1;
-            $(this).attr('class', 'tag tag-selected');
-            $(this).html(format(stop.tags[i].label, stop.tags[i].count));
+            clicked.attr('class', 'tag tag-selected');
+            clicked.html(format(stop.tags[i].label, stop.tags[i].count));
         } else {
             stop.tags[i].count = stop.tags[i].count - 1;
-            $(this).attr('class', getClass(i));
-            $(this).html(format(stop.tags[i].label, stop.tags[i].count));
+            clicked.attr('class', getClass(i));
+            clicked.html(format(stop.tags[i].label, stop.tags[i].count));
         }
-    });
 
-    /* Save by updating count and color in the tag */
-    $('#save-button').click(function() {
-        $(this).text('Saving...');
+        let oldHtml = clicked.html();
+        clicked.attr('disabled', true);
+        clicked.html('Saving...');
 
+        setTimeout(function() {
+                clicked.text('Saved!');
+                setTimeout(function() {
+                    clicked.html(oldHtml);
+                    clicked.attr('disabled', false);
+                }, 1500);
+            }, 1000
+        );
+
+        /*
         put(stop,
             function(res) {
-                $('#save-button').text('Saved!');
+                clicked.text('Saved!');
+                setTimeout(function() {
+                    clicked.html(oldHtml);
+                    clicked.attr('disabled', false);
+                }, 1500);
             },
             function(err) {
                 console.log(err);
             }
         );
+        */
     });
 
     /* Opens the modal to upload an image */
@@ -115,34 +129,79 @@ function setup(data) {
         }
     });
 
-    $('#yes').click(function() {
+    function buttonClicked(clicked) {
+        let oldHtml = clicked.html();
+        let res = 0;
+
+        res = switchColors(clicked);
+
+        $('#yes').attr('disabled', true);
         $('#no').attr('disabled', true);
-        $('#yes').html('Saving...');
-        stop.yesAccessible++;
+        clicked.html('Saving...');
+
+        setTimeout(function() {
+                clicked.text('Saved!');
+                setTimeout(function() {
+                    clicked.html(oldHtml);
+                    $('#yes').attr('disabled', false);
+                    $('#no').attr('disabled', false);
+
+                    $('#access-text').html(
+                        'This stop is accessible to ' + stop.yesAccessible + ' of ' +
+                            (stop.yesAccessible + stop.noAccessible) + ' users'
+                    );
+                }, 1500);
+            }, 1000
+        );
+
+        /*
         put(stop,
             function(res) {
-                $('#yes').html('Saved!');
-
+                clicked.text('Saved!');
+                setTimeout(function() {
+                    clicked.html(oldHtml);
+                    clicked.attr('disabled', false);
+                }, 1500);
             },
             function(err) {
                 console.log(err);
             }
         );
+        */
+        return res;
+    }
+
+    function switchColors(clicked) {
+        let primary = clicked.css('background-color');
+        let secondary = clicked.css('color');
+        clicked.css('background-color', secondary);
+        clicked.css('color', primary);
+
+        if (!clicked.attr('class').includes('clicked')) {
+            clicked.attr('class', clicked.attr('class') + ' clicked');
+            return 1;
+        } else {
+            let clazz = clicked.attr('class');
+            clicked.attr('class', clazz.substring(0, clazz.length - 8));
+            return -1;
+        }
+
+    }
+
+    $('#yes').click(function() {
+        if ($('#no').attr('class').includes('clicked')) {
+            switchColors($('#no'));
+            stop.noAccessible--;
+        }
+        stop.yesAccessible += buttonClicked($(this));
     });
 
     $('#no').click(function() {
-        $('#yes').attr('disabled', true);
-        $('#no').html('Saving...');
-        stop.noAccessible++;
-        put(stop,
-            function(res) {
-                $('#no').html('Saved!');
-
-            },
-            function(err) {
-                console.log(err);
-            }
-        );
+        if ($('#yes').attr('class').includes('clicked')) {
+            switchColors($('#yes'));
+            stop.yesAccessible--;
+        }
+        stop.noAccessible += buttonClicked($(this));
     });
 
     /* Close the modal when 'Cancel' is clicked */
@@ -292,6 +351,52 @@ function put(stop, success, error) {
 
 /* make a GET request and then load the page */
 $(document).ready(function() {
+    let data = {
+        "id": "98_755003",
+        "name": "UW Link Station / UW Link Station",
+        "direction": "SW",
+        "images": [],
+        "tags": [
+            {
+                "label": "Tight Spaces",
+                "count": 7
+            },
+            {
+                "label": "Sharp Inclines",
+                "count": 2
+            },
+            {
+                "label": "Construction Nearby",
+                "count": 11
+            },
+            {
+                "label": "Low-Quality Sidewalk",
+                "count": 15
+            },
+            {
+                "label": "Overgrowing Foliage",
+                "count": 3
+            },
+            {
+                "label": "Lack of Elevator",
+                "count": 0
+            },
+            {
+                "label": "Broken Benches",
+                "count": 0
+            },
+            {
+                "label": "Insufficient Light",
+                "count": 0
+            }
+        ],
+        "yesAccessible": 8,
+        "noAccessible": 5
+    }
+    $('#loading').hide();
+    setup(data);
+
+    /*
     $.ajax({
         type: 'GET',
         url: WEB_SERVICE + getQueryParam('id'),
@@ -309,4 +414,5 @@ $(document).ready(function() {
             console.log(err);
         }
     });
+    */
 });

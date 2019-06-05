@@ -16,12 +16,6 @@ public class Image {
         imageUrl = altText = dateUploaded = "";
     }
 
-    public Image(DtoImage dtoImage) {
-        this.imageUrl = dtoImage.getImageUrl();
-        this.altText = dtoImage.getAltText();
-        this.dateUploaded = dtoImage.getDateUploaded();
-    }
-
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }

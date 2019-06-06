@@ -128,11 +128,11 @@ p {
     font-style: italic;
 }
 
-button:enabled, label {
+button:enabled {
     cursor: pointer;
 }
 
-button:hover, label:hover {
+button:hover {
     opacity: 0.8;
 }
 
